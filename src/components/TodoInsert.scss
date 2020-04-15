@@ -7,7 +7,7 @@
     border:none;
     padding:0.5rem 0.5rem 0.5rem 20px;
     font-size: 1.16rem;
-    line-height: 2rem;
+    line-height: 2.2rem;
     border-radius: 100px;
     color: #d4c8c8;
     //background:#292852;
@@ -18,8 +18,8 @@
   }
   button{
     position: absolute;
-    right:5px;
-    bottom:5px;
+    right:7px;
+    bottom:7px;
     font-size: 35px;
     line-height: 1rem;
     border:none;
@@ -27,6 +27,9 @@
     color: #ffffff;
     transition: 0.5s background ease-in;
     cursor: pointer;
+    &:focus {
+      outline: none;
+    }
     &:hover{
       color: rgba(217, 217, 217, 0.36);
     }
