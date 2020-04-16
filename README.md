@@ -1,68 +1,29 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# SJ-TODO 기능정리
 
-## Available Scripts1
+## 1. 등록 된 Todo 목록을 보여준다
 
-In the project directory, you can run:
+![SJ%20TODO/Untitled.png](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/aabc4169-6571-4756-a4cc-c9aa3171ea8e/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20200416%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20200416T121059Z&X-Amz-Expires=86400&X-Amz-Signature=4f527b174aaff6c609d46f2d24ad54df16b06bd0a134feba05a8b63b63c00da2&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22)
 
-### `yarn start`
+## 2. 할 일을 입력 후 엔터 혹은 + 버튼을 누르면 새 Todo가 TodoList에 추가 된다.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+이 때 빈 값은 추가되지 않도록 유효성 체크를 한다
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+![SJ%20TODO/Untitled%201.png](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/6f84cd6a-79c9-4480-8095-c87171360774/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20200416%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20200416T121143Z&X-Amz-Expires=86400&X-Amz-Signature=42a6868054118b8acb63174eb6547a2692deec15ccc32d310e2db08c087f2bde&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22)
 
-### `yarn test`
+## 3. 🗑 (removed) 상태가 될 수 있다
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+삭제시 목록에 표현되지 않는다
 
-### `yarn build`
+![SJ%20TODO/Untitled%202.png](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/61a94be6-6378-42d6-bf41-36e4e803e925/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20200416%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20200416T121211Z&X-Amz-Expires=86400&X-Amz-Signature=a6303faef889d47fd31c2a604a9f396032cf4fb71fd489deef75b28a0732760a&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22)
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 4. ☆(star), ✔️(done) 상태가 될 수 있다
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+star 체크시 목록의 상단으로 위치가 변경 된다
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![SJ%20TODO/Untitled%203.png](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/df28b62a-8c7d-4614-a761-34426b2693b8/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20200416%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20200416T121225Z&X-Amz-Expires=86400&X-Amz-Signature=980adb0deefb8c71e24dc1fad4fb4ca0af9b37710a0eef8447b03835f1719fd1&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22)
 
-### `yarn eject`
+## 5. 타이틀을 변경할 수 있다.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+title과 setTitle을 props로 받으면 좋을 듯
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+![SJ%20TODO/Untitled%204.png](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/63e9c23e-294d-49a3-a5b2-a05a5ef52ac8/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20200416%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20200416T121240Z&X-Amz-Expires=86400&X-Amz-Signature=a4a65dad986c433948ed2be727cf0bd10e3f13f52187e66a14538a12c10a74b7&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22)
