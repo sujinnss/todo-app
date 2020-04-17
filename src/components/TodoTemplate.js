@@ -4,7 +4,7 @@ import './TodoTemplate.scss';
 const TodoTemplate = ({ children }) => {
   return (
     <div className="TodoTemplate">
-      <div className="title">TODO</div>
+      <input className="title" type="text" placeholder="제목을 입력하세요" />
       <div className="contents">{children}</div>
     </div>
   );

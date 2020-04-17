@@ -1,7 +1,9 @@
 .TodoItem {
   display: flex;
-  padding:1.2rem;
-  border-bottom: 1px dashed gray;
+  padding:1rem;
+  background: white;
+  margin-bottom: 5px;
+  border-radius: 7px;
   .checkbox {
     //border:1px solid red;
     font-size:1.1rem;
@@ -12,19 +14,31 @@
       cursor: pointer;
       margin-right: 20px;
       font-size: 1.9rem;
-      color: #2b5f8c;
+      color:  #686868;
     }
     .text {
       flex: 1;
-      color: rgba(255, 255, 255, 0.87);
+      color:black;
     }
     &.checked{
       svg{
-        color: #2b5f8c;
+        color:  #6374bc;
       }
       .text{
         color:gray;
         text-decoration: line-through;
+      }
+    }
+  }
+  .starbox{
+    display: flex;
+    margin-right: 10px;
+    font-size: 1.7rem;
+    color: #686868;
+    cursor: pointer;
+    &.star{
+      svg{
+        color:yellow;
       }
     }
   }
@@ -33,6 +47,5 @@
     font-size: 1.9rem;
     color: #2b5f8c;
     cursor: pointer;
-
   }
 }
