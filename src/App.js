@@ -71,7 +71,7 @@ function App() {
           onToggle={onToggle}
           onToggleStar={onToggleStar}
         />
-        <TodoResult />
+        <TodoResult todos={todos}/>
       </TodoTemplate>
     </div>
   );
