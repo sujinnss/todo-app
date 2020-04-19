@@ -5,7 +5,6 @@
   margin-right: auto;
   margin-top: 5rem;
   background: #6374bc;
-  //background: black;
   overflow: hidden;
   .title{
     background: none;
@@ -25,8 +24,24 @@
     &:focus{
      outline: none;
     }
-  }
-  .contents{
+   }
+   .color{
+     text-align: center;
+     button {
+       width: 55px;
+       height: 55px;
+       border-radius:40px;
+       background: none;
+       margin: 0 10px;
+       &:focus {
+         outline: none;
+       }
+       svg {font-size: 40px;}
+      }
+     .c1{ color:#6374bc;}
+     .c2{color:#639dbc;}
+     .c3{color:#bc637f;}
+     .c4{color:#70bc63;}
+   }
 
-  }
 }
