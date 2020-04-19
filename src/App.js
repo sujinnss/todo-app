@@ -3,13 +3,12 @@ import TodoTemplate from './components/TodoTemplate';
 import TodoInsert from './components/TodoInsert';
 import TodoList from './components/TodoList';
 import TodoResult from './components/TodoResult';
+import styled from "styled-components";
 
 function App() {
   const [todos, setTodos] = useState([]);
-
   const title = '';
 
-  const done = 0;
 
   //id가 4부터 추가되기 때문
   const nextId = useRef(4);
@@ -51,6 +50,7 @@ function App() {
     [todos]
   );
 
+  // 별 클릭시 색상 변경
   const onToggleStar = useCallback(
     (id) => {
       setTodos(
@@ -61,9 +61,10 @@ function App() {
     },
     [todos]
   );
+
   return (
     <div className="App">
-      <TodoTemplate title={title}>
+      <TodoTemplate title={title} >
         <TodoInsert onInsert={onInsert} />
         <TodoList
           todos={todos}
