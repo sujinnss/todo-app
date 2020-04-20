@@ -3,7 +3,7 @@ import TodoTemplate from './components/TodoTemplate';
 import TodoInsert from './components/TodoInsert';
 import TodoList from './components/TodoList';
 import TodoResult from './components/TodoResult';
-import styled from "styled-components";
+
 
 function App() {
   const [todos, setTodos] = useState([]);
