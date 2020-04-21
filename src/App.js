@@ -22,6 +22,7 @@ function App() {
           id: nextId.current,
           text,
           checked: false,
+          star:false,
         };
         setTodos(todos.concat(todo));
         nextId.current += 1;
@@ -54,13 +55,21 @@ function App() {
   const onToggleStar = useCallback(
     (id) => {
       setTodos(
-        todos.map((todo) =>
+          (todos.map((todo) =>
           todo.id === id ? { ...todo, star: !todo.star } : todo
-        )
+        ))
       );
     },
     [todos]
   );
+
+  // star로 sort()하는법
+  const onTodoSort = ( a,b ) => {
+        let starA = a.star ? 0 : 1;
+        let starB = b.star ? 0 : 1;
+        return starA - starB;
+    };
+
 
   return (
     <div className="App">
@@ -71,6 +80,7 @@ function App() {
           onRemove={onRemove}
           onToggle={onToggle}
           onToggleStar={onToggleStar}
+          onTodoSort = {onTodoSort}
         />
         <TodoResult todos={todos}/>
       </TodoTemplate>
