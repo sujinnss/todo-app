@@ -3,6 +3,7 @@ import TodoTemplate from './components/TodoTemplate';
 import TodoInsert from './components/TodoInsert';
 import TodoList from './components/TodoList';
 import TodoResult from './components/TodoResult';
+import { ColorConsumer, ColorProvider } from './contexts/color';
 
 
 function App() {
@@ -70,21 +71,20 @@ function App() {
         return starA - starB;
     };
 
-
   return (
-    <div className="App">
-      <TodoTemplate title={title} >
-        <TodoInsert onInsert={onInsert} />
-        <TodoList
-          todos={todos}
-          onRemove={onRemove}
-          onToggle={onToggle}
-          onToggleStar={onToggleStar}
-          onTodoSort = {onTodoSort}
-        />
-        <TodoResult todos={todos}/>
-      </TodoTemplate>
-    </div>
+                <div className="App">
+                  <TodoTemplate title={title} >
+                    <TodoInsert onInsert={onInsert} />
+                    <TodoList
+                      todos={todos}
+                      onRemove={onRemove}
+                      onToggle={onToggle}
+                      onToggleStar={onToggleStar}
+                      onTodoSort = {onTodoSort}
+                    />
+                    <TodoResult todos={todos}/>
+                  </TodoTemplate>
+                </div>
   );
 }
 
