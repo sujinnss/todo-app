@@ -9,9 +9,11 @@
     font-size: 1.16rem;
     line-height: 2.2rem;
     border-radius: 100px;
-    color: #d4c8c8;
-    //background:#292852;
-    background: rgba(177, 177, 177, 0.25);
+    background: rgba(0, 0, 0, 0.18);
+    color:white;
+    &::placeholder{
+      color: rgba(255, 255, 255, 0.75);
+    }
     &:focus {
       outline: none;
     }

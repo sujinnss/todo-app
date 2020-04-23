@@ -4,8 +4,8 @@ import { MdAdd } from 'react-icons/md';
 
 // props로 부터 onInsert를 props로 받음
 const TodoInsert = ({ onInsert }) => {
+  // const
   const [value, setValue] = useState('');
-
   const onChange = useCallback((e) => {
     setValue(e.target.value);
   }, []);

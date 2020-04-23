@@ -1,0 +1,24 @@
+.TodoResult{
+  margin: 20px auto;
+  width: 350px;
+  font-size: 1.5rem;
+  line-height: 3rem;
+  height: 3rem;
+  color:white;
+
+
+  .complete{
+    float:left;
+    width:150px;
+    text-align: center;
+    //border:1px solid red;
+    //line-height: 3rem;
+  }
+  .incomplete{
+    float: right;
+    width:150px;
+    text-align: center;
+    //border:1px solid red;
+    //background: pink;
+  }
+}

@@ -1,5 +1,7 @@
 # SJ-TODO 기능정리
 
+[SJ-TODO 기능정리(노션)](https://www.notion.so/SJ-TODO-904a9be8438e43d28248f565b561cc23#24cd331c91704553ae9c4976d3520679)
+
 ## 1. 등록 된 Todo 목록을 보여준다
 
 ![SJ%20TODO/Untitled.png](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/aabc4169-6571-4756-a4cc-c9aa3171ea8e/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20200416%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20200416T121059Z&X-Amz-Expires=86400&X-Amz-Signature=4f527b174aaff6c609d46f2d24ad54df16b06bd0a134feba05a8b63b63c00da2&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22)

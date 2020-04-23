@@ -1,25 +1,28 @@
 .TodoTemplate{
-  width: 600px;
+  width: 400px;
   padding:20px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 5rem;
-  //border-radius: 0.8rem;
-  //background: #3c3b71;
-  background: #000000;
+  background: #6374bc;
   overflow: hidden;
   .title{
-    //border:1px solid yellow;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 2rem;
+    background: none;
+    border:none;
+    display: block;
+    margin: auto;
+    margin-bottom: 3rem;
     height: 2rem;
+    color:white;
+    text-align:center;
     font-size: 25px;
-    color: rgb(43, 95, 181);
     font-weight: bold;
-  }
-  .contents{
-
-  }
+    &::placeholder{
+      color: rgba(255, 255, 255, 0.4);
+      text-align:center;
+    }
+    &:focus{
+     outline: none;
+    }
+   }
 }
