@@ -5,87 +5,94 @@ import TodoList from './components/TodoList';
 import TodoResult from './components/TodoResult';
 import { ColorConsumer, ColorProvider } from './contexts/color';
 
-
 function App() {
-  const [todos, setTodos] = useState([]);
-  const title = '';
+    const [todos, setTodos] = useState([]);
 
+    const title = '';
 
-  //id가 4부터 추가되기 때문
-  const nextId = useRef(4);
+    //id가 4부터 추가되기 때문
+    const nextId = useRef(4);
 
-  const onInsert = useCallback(
-    (text) => {
-      if (text === '') {
-        alert('todo를 입력하세요');
-      } else {
-        const todo = {
-          id: nextId.current,
-          text,
-          checked: false,
-          star:false,
-        };
-        setTodos(todos.concat(todo));
-        nextId.current += 1;
-      }
-    },
-    [todos]
-  );
+    const onInsert = useCallback(
+        (text) => {
+            if (text === '') {
+                alert('todo를 입력하세요');
+            } else {
+                const todo = {
+                    id: nextId.current,
+                    text,
+                    checked: false,
+                    star: false,
+                };
+                setTodos(todos.concat(todo));
+                nextId.current += 1;
+            }
+        },
+        [todos]
+    );
 
-  // 원하는 항목 지우는 함수
-  const onRemove = useCallback(
-    (id) => {
-      setTodos(todos.filter((todo) => todo.id !== id));
-    },
-    [todos]
-  );
+    // 날짜 변경함수
+    // const onInsertDate = useCallback(
+    //     (dates) => {
+    //         setDate(dates);
+    //     },
+    //     [date]
+    // );
 
-  //check하는 함수 만들기
-  const onToggle = useCallback(
-    (id) => {
-      setTodos(
-        todos.map((todo) =>
-          todo.id === id ? { ...todo, checked: !todo.checked } : todo
-        )
-      );
-    },
-    [todos]
-  );
+    // 원하는 항목 지우는 함수
+    const onRemove = useCallback(
+        (id) => {
+            setTodos(todos.filter((todo) => todo.id !== id));
+        },
+        [todos]
+    );
 
-  // 별 클릭시 색상 변경
-  const onToggleStar = useCallback(
-    (id) => {
-      setTodos(
-          (todos.map((todo) =>
-          todo.id === id ? { ...todo, star: !todo.star } : todo
-        ))
-      );
-    },
-    [todos]
-  );
+    //check하는 함수 만들기
+    const onToggle = useCallback(
+        (id) => {
+            setTodos(
+                todos.map((todo) =>
+                    todo.id === id ? { ...todo, checked: !todo.checked } : todo
+                )
+            );
+        },
+        [todos]
+    );
 
-  // star로 sort()하는법
-  const onTodoSort = ( a,b ) => {
+    // 별 클릭시 색상 변경
+    const onToggleStar = useCallback(
+        (id) => {
+            setTodos(
+                todos.map((todo) =>
+                    todo.id === id ? { ...todo, star: !todo.star } : todo
+                )
+            );
+        },
+        [todos]
+    );
+
+    // star로 sort()하는법 => 수정해야함
+    const onTodoSort = (a, b) => {
         let starA = a.star ? 0 : 1;
         let starB = b.star ? 0 : 1;
         return starA - starB;
     };
 
-  return (
-                <div className="App">
-                  <TodoTemplate title={title} >
-                    <TodoInsert onInsert={onInsert} />
-                    <TodoList
-                      todos={todos}
-                      onRemove={onRemove}
-                      onToggle={onToggle}
-                      onToggleStar={onToggleStar}
-                      onTodoSort = {onTodoSort}
-                    />
-                    <TodoResult todos={todos}/>
-                  </TodoTemplate>
-                </div>
-  );
+    return (
+        <div className="App">
+            <TodoTemplate title={title}>
+                <TodoInsert onInsert={onInsert} />
+                <TodoList
+                    todos={todos}
+                    onRemove={onRemove}
+                    onToggle={onToggle}
+                    onToggleStar={onToggleStar}
+                    onTodoSort={onTodoSort}
+                />
+                <TodoResult todos={todos} />
+            </TodoTemplate>
+        </div>
+    );
 }
 
 export default App;

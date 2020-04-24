@@ -1,25 +1,33 @@
 .SelectColor {
-  //right가 안먹힘
-  position: relative;
-  top:10px;
-  left:350px;
+    //right가 안먹힘
+    //position: relative;
+    //top:10px;
+    //left:350px;
     button.color {
-      top: 50px;
-      left: 50px;
-      width: 40px;
-      height: 40px;
-      background: rgba(255, 255, 255, 0.36);
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      svg {
-        font-size: 30px;
-      }
-      &:hover {
-        background: rgba(69, 69, 69, 0.4);
-      }
-      &:focus {
-        outline: none;
-      }
+        position: relative;
+        top:0px;
+        left:320px;
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.36);
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        svg {
+            font-size: 30px;
+        }
+        &:hover {
+            background: rgba(69, 69, 69, 0.4);
+        }
+        &:focus {
+            outline: none;
+        }
     }
+  div.sample{
+    float: end;
+    position:relative;
+    top:0px;
+    left:215px;
+    //border:1px solid hotpink;
+  }
 }
