@@ -1,39 +1,72 @@
-.TodoInsert{
-  position: relative;
-  display: flex;
-  margin-bottom: 20px;
-  input{
-    flex:1;
-    border:none;
-    padding:0.5rem 0.5rem 0.5rem 20px;
-    font-size: 1.16rem;
-    line-height: 2.2rem;
-    border-radius: 100px;
-    background: rgba(0, 0, 0, 0.18);
-    color:white;
-    &::placeholder{
-      color: rgba(255, 255, 255, 0.75);
+.TodoInsert {
+    //border:1px solid red;
+    position: relative;
+    display: flex;
+    margin-bottom: 20px;
+    input {
+        flex: 1;
+        border: none;
+        padding: 0.5rem 0.5rem 0.5rem 20px;
+        font-size: 1.16rem;
+        line-height: 2.2rem;
+        border-radius: 100px;
+        background: rgba(0, 0, 0, 0.18);
+        color: white;
+        &::placeholder {
+            color: rgba(255, 255, 255, 0.75);
+        }
+        &:focus {
+            outline: none;
+        }
     }
-    &:focus {
-      outline: none;
+    // 달력사용하는것
+    .ant-picker {
+      border:none;
+        width: 120px;
+        height: 30px;
+        background: none;
+        input {
+            width: 80px;
+            height: 30px;
+            padding: 1px;
+            //border: 1px solid red;
+            font-size: 12px;
+            background: none;
+        }
+      .ant-picker-suffix{
+        font-size: 25px;
+        line-height: 30px;
+        color:white;
+      }
     }
-  }
-  button{
-    position: absolute;
-    right:7px;
-    bottom:7px;
-    font-size: 35px;
-    line-height: 1rem;
-    border:none;
-    background: none;
-    color: #ffffff;
-    transition: 0.5s background ease-in;
-    cursor: pointer;
-    &:focus {
-      outline: none;
+
+    .date {
+        position: absolute;
+        right: 45px;
+        bottom: 10px;
+        font-size: 35px;
+        color: white;
+        &:hover {
+            color: rgba(217, 217, 217, 0.36);
+        }
     }
-    &:hover{
-      color: rgba(217, 217, 217, 0.36);
+
+    button {
+        position: absolute;
+        right: 10px;
+        bottom: 7px;
+        font-size: 35px;
+        line-height: 1rem;
+        border: none;
+        background: none;
+        color: #ffffff;
+        transition: 0.5s background ease-in;
+        cursor: pointer;
+        &:focus {
+            outline: none;
+        }
+        &:hover {
+            color: rgba(217, 217, 217, 0.36);
+        }
     }
-  }
 }
