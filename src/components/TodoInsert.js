@@ -1,38 +1,46 @@
 import React, { useCallback, useState } from 'react';
 import './TodoInsert.scss';
-import { MdAdd } from 'react-icons/md';
+import { MdAdd, MdDateRange } from 'react-icons/md';
+import { DatePicker } from 'antd';
+import moment from 'moment';
 
 // props로 부터 onInsert를 props로 받음
 const TodoInsert = ({ onInsert }) => {
-  // const
-  const [value, setValue] = useState('');
-  const onChange = useCallback((e) => {
-    setValue(e.target.value);
-  }, []);
+    const [date, setDate] = useState(moment());
 
-  const onSubmit = useCallback(
-    (e) => {
-      onInsert(value);
-      setValue('');
-      e.preventDefault();
-    },
-    [onInsert, value]
-  );
+    const [value, setValue] = useState('');
+    const onChange = useCallback((e) => {
+        setValue(e.target.value);
+    }, []);
 
-  //input의 value,onChange가 포인트
-  return (
-    <form className="TodoInsert" onSubmit={onSubmit}>
-      <input
-        type="text"
-        placeholder="todo를 입력하세요"
-        value={value}
-        onChange={onChange}
-      />
-      <button type="submit">
-        <MdAdd />
-      </button>
-    </form>
-  );
+    const onSubmit = useCallback(
+        (e) => {
+            onInsert(value);
+            setValue('');
+            e.preventDefault();
+        },
+        [onInsert, value]
+    );
+
+    const handleDateChange = (date) => setDate(date);
+
+    //input의 value,onChange가 포인트
+    return (
+        <form className="TodoInsert" onSubmit={onSubmit}>
+            <input
+                type="text"
+                placeholder="todo"
+                value={value}
+                onChange={onChange}
+            />
+            <div className="date">
+                <DatePicker value={date} onChange={handleDateChange} />
+            </div>
+            <button className="submit" type="submit">
+                <MdAdd />
+            </button>
+        </form>
+    );
 };
 
 export default TodoInsert;
