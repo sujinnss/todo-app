@@ -3,26 +3,41 @@ import TodoTemplate from './components/TodoTemplate';
 import TodoInsert from './components/TodoInsert';
 import TodoList from './components/TodoList';
 import TodoResult from './components/TodoResult';
-import { ColorConsumer, ColorProvider } from './contexts/color';
+
+import { Layout, Menu, Breadcrumb } from 'antd';
+import { DesktopOutlined, PieChartOutlined } from '@ant-design/icons';
+
 
 function App() {
-    const [todos, setTodos] = useState([]);
 
+    const { Header, Content, Sider } = Layout;
+    const [sider, setSider] = useState(false);
+
+
+    const [todos, setTodos] = useState([]);
     const title = '';
+
+    const onCollapse = sider => {
+        console.log(sider);
+        setSider(sider);
+    };
+
 
     //id가 4부터 추가되기 때문
     const nextId = useRef(4);
 
     const onInsert = useCallback(
-        (text) => {
+        (text, date) => {
             if (text === '') {
-                alert('todo를 입력하세요');
+                alert(date);
+                //alert('todo를 입력하세요');
             } else {
                 const todo = {
                     id: nextId.current,
                     text,
+                    date,
                     checked: false,
-                    star: false,
+                    star: false
                 };
                 setTodos(todos.concat(todo));
                 nextId.current += 1;
@@ -31,13 +46,6 @@ function App() {
         [todos]
     );
 
-    // 날짜 변경함수
-    // const onInsertDate = useCallback(
-    //     (dates) => {
-    //         setDate(dates);
-    //     },
-    //     [date]
-    // );
 
     // 원하는 항목 지우는 함수
     const onRemove = useCallback(
@@ -79,19 +87,39 @@ function App() {
     };
 
     return (
-        <div className="App">
-            <TodoTemplate title={title}>
-                <TodoInsert onInsert={onInsert} />
-                <TodoList
-                    todos={todos}
-                    onRemove={onRemove}
-                    onToggle={onToggle}
-                    onToggleStar={onToggleStar}
-                    onTodoSort={onTodoSort}
-                />
-                <TodoResult todos={todos} />
-            </TodoTemplate>
-        </div>
+        <Layout style={{ minHeight: '100vh' }}>
+
+            <Sider collapsible collapsed={sider} onCollapse={onCollapse}>
+                <div className="logo"/>
+                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+                    <Menu.Item key="1">
+                        <PieChartOutlined/>
+                        <span>Option 1</span>
+                    </Menu.Item>
+                    <Menu.Item key="2">
+                        <DesktopOutlined/>
+                        <span>Option 2</span>
+                    </Menu.Item>
+                </Menu>
+            </Sider>
+
+            <Layout className="site-layout">
+                <div className="App">
+                    <TodoTemplate title={title}>
+                        <TodoInsert onInsert={onInsert}/>
+                        <TodoList
+                            todos={todos}
+                            onRemove={onRemove}
+                            onToggle={onToggle}
+                            onToggleStar={onToggleStar}
+                            onTodoSort={onTodoSort}
+                        />
+                        <TodoResult todos={todos}/>
+                    </TodoTemplate>
+                </div>
+            </Layout>
+
+        </Layout>
     );
 }
 
