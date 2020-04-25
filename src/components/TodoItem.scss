@@ -1,57 +1,72 @@
 .TodoItem {
+  //border: 1px solid red;
+  display: flex;
+  padding: 0.8rem;
+  background: white;
+  margin-bottom: 5px;
+  border-radius: 7px;
+
+  .checkbox {
+    flex: 1;
     display: flex;
-    padding: 1rem;
-    background: white;
-    margin-bottom: 5px;
-    border-radius: 7px;
-    .checkbox {
-        border: 1px solid red;
-        font-size: 1.1rem;
-        flex: 1;
-        display: flex;
-        align-items: center;
+    align-items: center;
+
+    svg {
+      //border:1px solid #03bdd0;
+      cursor: pointer;
+      margin-right: 30px;
+      font-size: 2rem;
+      color: #686868;
+    }
+
+    .textDate {
+      flex: 1;
+
+      .text {
+        font-size: 1.5rem;
+        //border: 1px solid #0090ff;
+        color: black;
+      }
+
+      &.checked {
         svg {
-            border:1px solid #03bdd0;
-            cursor: pointer;
-            margin-right: 20px;
-            font-size: 1.9rem;
-            color: #686868;
+          color: #6374bc;
         }
+
         .text {
-            border: 1px solid #0090ff;
-            flex: 1.5;
-            color: black;
+          color: gray;
+          text-decoration: line-through;
         }
-        &.checked {
-            svg {
-                color: #6374bc;
-            }
-            .text {
-                color: gray;
-                text-decoration: line-through;
-            }
-        }
-        .date {
-            flex: 1;
-            border: 1px solid #66016f;
-        }
+      }
+
+      .date {
+        font-size: 1rem;
+
+      }
     }
-    .starbox {
-        display: flex;
-        margin-right: 10px;
-        font-size: 1.7rem;
-        color: #686868;
-        cursor: pointer;
-        &.star {
-            svg {
-                color: yellow;
-            }
-        }
+  }
+
+  .starbox {
+    //border:1px solid red;
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    font-size: 2rem;
+    color: #686868;
+    cursor: pointer;
+
+    &.star {
+      svg {
+        color: yellow;
+      }
     }
-    .remove {
-        display: flex;
-        font-size: 1.9rem;
-        color: #2b5f8c;
-        cursor: pointer;
-    }
+  }
+
+  .remove {
+    display: flex;
+    align-items: center;
+    font-size: 2rem;
+    color: #2b5f8c;
+    cursor: pointer;
+  }
 }

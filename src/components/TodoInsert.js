@@ -33,7 +33,7 @@ const TodoInsert = ({ onInsert }) => {
         <form className="TodoInsert" onSubmit={onSubmit}>
             <input
                 type="text"
-                placeholder="todo"
+                placeholder="todo를 입력하세요"
                 value={value}
                 onChange={onChange}
             />

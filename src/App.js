@@ -5,12 +5,12 @@ import TodoList from './components/TodoList';
 import TodoResult from './components/TodoResult';
 
 import { Layout, Menu, } from 'antd';
-import { DesktopOutlined, PieChartOutlined } from '@ant-design/icons';
+import { SmileOutlined,StarOutlined  } from '@ant-design/icons';
 
 
 function App() {
 
-    const { Header, Content, Sider } = Layout;
+    const {Content, Sider } = Layout;
     const [sider, setSider] = useState(false);
 
 
@@ -86,16 +86,16 @@ function App() {
     return (
         <Layout style={{ minHeight: '100vh' }}>
 
-            <Sider collapsible collapsed={sider} onCollapse={onCollapse}>
+            <Sider collapsible collapsed={sider} onCollapse={onCollapse} style={{ width: '600px' }}>
                 <div className="logo"/>
                 <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
                     <Menu.Item >
-                        <PieChartOutlined/>
-                        <span>Option 1</span>
+                        <SmileOutlined />
+                        <span>오늘의 할일</span>
                     </Menu.Item>
                     <Menu.Item >
-                        <DesktopOutlined/>
-                        <span>Option 2</span>
+                        <StarOutlined/>
+                        <span>중요</span>
                     </Menu.Item>
                 </Menu>
             </Sider>
@@ -111,7 +111,7 @@ function App() {
                             onToggleStar={onToggleStar}
                             onTodoSort={onTodoSort}
                         />
-                        <TodoResult todos={todos}/>
+                        {/*<TodoResult todos={todos}/>*/}
                     </TodoTemplate>
                 </div>
             </Layout>
