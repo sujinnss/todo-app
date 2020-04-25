@@ -1,72 +1,75 @@
 .TodoInsert {
-    //border:1px solid red;
-    position: relative;
-    display: flex;
-    margin-bottom: 20px;
+  position: relative;
+  display: flex;
+  margin-bottom: 4rem;
+  input {
+    flex: 1;
+    border: none;
+    padding: 1rem 1rem 1rem 3rem;
+    font-size: 1.4rem;
+    line-height: 2.2rem;
+    border-radius: 100rem;
+    background: rgba(0, 0, 0, 0.18);
+    color: white;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  // 달력사용하는것
+  .ant-picker {
+    width: 250px;
+    height: 30px;
+    background: none;
+    border:none;
+    &:focus {
+      outline: none;
+    }
     input {
-        flex: 1;
-        border: none;
-        padding: 0.5rem 0.5rem 0.5rem 20px;
-        font-size: 1.16rem;
-        line-height: 2.2rem;
-        border-radius: 100px;
-        background: rgba(0, 0, 0, 0.18);
-        color: white;
-        &::placeholder {
-            color: rgba(255, 255, 255, 0.75);
-        }
-        &:focus {
-            outline: none;
-        }
-    }
-    // 달력사용하는것
-    .ant-picker {
-      border:none;
-        width: 120px;
-        height: 30px;
-        background: none;
-        input {
-            width: 80px;
-            height: 30px;
-            padding: 1px;
-            //border: 1px solid red;
-            font-size: 12px;
-            background: none;
-        }
-      .ant-picker-suffix{
-        font-size: 25px;
-        line-height: 30px;
-        color:white;
-      }
+      height: 30px;
+      font-size: 20px;
+      background: none;
     }
 
-    .date {
-        position: absolute;
-        right: 45px;
-        bottom: 10px;
-        font-size: 35px;
-        color: white;
-        &:hover {
-            color: rgba(217, 217, 217, 0.36);
-        }
+    // 달력 아이콘
+    .ant-picker-suffix {
+      font-size: 35px;
+      line-height: 35px;
+      color: white;
+    }
+  }
+
+  .date {
+    position: absolute;
+    right: 80px;
+    top:20px;
+    color: white;
+    &:hover {
+      color: rgba(217, 217, 217, 0.36);
+    }
+  }
+
+  button {
+    position: absolute;
+    right: 20px;
+    font-size: 50px;
+    border: none;
+    background: none;
+    color: #ffffff;
+    transition: 0.5s background ease-in;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
     }
 
-    button {
-        position: absolute;
-        right: 10px;
-        bottom: 7px;
-        font-size: 35px;
-        line-height: 1rem;
-        border: none;
-        background: none;
-        color: #ffffff;
-        transition: 0.5s background ease-in;
-        cursor: pointer;
-        &:focus {
-            outline: none;
-        }
-        &:hover {
-            color: rgba(217, 217, 217, 0.36);
-        }
+    &:hover {
+      color: rgba(217, 217, 217, 0.36);
     }
+  }
 }

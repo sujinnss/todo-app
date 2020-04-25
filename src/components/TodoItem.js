@@ -4,7 +4,7 @@ import {
     MdRadioButtonUnchecked,
     MdRemove,
     MdStarBorder,
-    MdStar,
+    MdStar
 } from 'react-icons/md';
 import cn from 'classnames';
 import './TodoItem.scss';
@@ -21,31 +21,33 @@ const TodoItem = ({ todo, onRemove, onToggle, onToggleStar }) => {
 
     return (
         <Anime opacity={[0, 1]} translateX={[-250, 0]}>
-        <div className="TodoItem">
-            <div
-                className={cn('checkbox', { checked })}
-                onClick={() => onToggle(id)}
-            >
-                {checked ? <MdCheckCircle /> : <MdRadioButtonUnchecked />}
-                <div className="text">{text}</div>
-                <div className="date">{moment(date).format('YYYY[-]MM[-]DD')}</div>
+            <div className="TodoItem">
+                <div
+                    className={cn('checkbox', { checked })}
+                    onClick={() => onToggle(id)}
+                >
+                    {checked ? <MdCheckCircle/> : <MdRadioButtonUnchecked/>}
+                    <div className="textDate">
+                        <div className="text">{text}</div>
+                        <div className="date">{moment(date).format('YYYY[-]MM[-]DD')}</div>
+                    </div>
+                </div>
+                <div
+                    className={cn('starbox', { star })}
+                    onClick={() => onToggleStar(id)}
+                >
+                    {star ? <MdStar/> : <MdStarBorder/>}
+                </div>
+                <div
+                    className="remove"
+                    onClick={() => {
+                        onRemove(id);
+                    }}
+                >
+                    <MdRemove/>
+                </div>
             </div>
-            <div
-                className={cn('starbox', { star })}
-                onClick={() => onToggleStar(id)}
-            >
-                {star ? <MdStar /> : <MdStarBorder />}
-            </div>
-            <div
-                className="remove"
-                onClick={() => {
-                    onRemove(id);
-                }}
-            >
-                <MdRemove />
-            </div>
-        </div>
-      </Anime>
+        </Anime>
     );
 };
 export default TodoItem;

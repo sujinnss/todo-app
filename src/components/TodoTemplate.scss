@@ -1,21 +1,20 @@
 .TodoTemplate{
-  width: 400px;
-  padding:20px;
+  height:100vh;
+  padding:3rem;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 5rem;
   background: #6374bc;
-  overflow: hidden;
+  overflow: auto;
   .title{
     background: none;
     border:none;
     display: block;
     margin: auto;
     margin-bottom: 3rem;
-    height: 2rem;
+    height: 3rem;
     color:white;
     text-align:center;
-    font-size: 25px;
+    font-size: 3rem;
     font-weight: bold;
     &::placeholder{
       color: rgba(255, 255, 255, 0.4);

@@ -1,6 +1,7 @@
 .TodoList {
-  max-height: 600px;
-  min-height: 400px;
+  //border:1px solid red;
+  //max-height: 50rem;
+  //min-height: 400px;
   overflow-y: auto;
 
   &::-webkit-scrollbar {
