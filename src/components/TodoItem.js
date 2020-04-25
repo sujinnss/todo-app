@@ -10,9 +10,13 @@ import cn from 'classnames';
 import './TodoItem.scss';
 import { fromJS, is } from 'immutable';
 import Anime from 'react-anime';
+import moment from 'moment';
 
 const TodoItem = ({ todo, onRemove, onToggle, onToggleStar }) => {
     const { id, text, checked, star, date } = todo;
+
+    console.log(moment(date).format('YYYY[-]MM[-]DD'))
+
 
     return (
         <Anime opacity={[0, 1]} translateX={[-250, 0]}>
@@ -23,7 +27,7 @@ const TodoItem = ({ todo, onRemove, onToggle, onToggleStar }) => {
             >
                 {checked ? <MdCheckCircle /> : <MdRadioButtonUnchecked />}
                 <div className="text">{text}</div>
-                <div className="date">{}</div>
+                <div className="date">{moment(date).format('YYYY[-]MM[-]DD')}</div>
             </div>
             <div
                 className={cn('starbox', { star })}

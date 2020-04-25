@@ -6,17 +6,21 @@ import moment from 'moment';
 
 // props로 부터 onInsert를 props로 받음
 const TodoInsert = ({ onInsert }) => {
+
+    // insert할때 날짜를 받아오려고
     const [date, setDate] = useState(moment());
 
     const [value, setValue] = useState('');
+
     const onChange = useCallback((e) => {
         setValue(e.target.value);
     }, []);
 
     const onSubmit = useCallback(
         (e) => {
-            onInsert(value);
+            onInsert(value,date);
             setValue('');
+            // setDate('');
             e.preventDefault();
         },
         [onInsert, value]
