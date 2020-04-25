@@ -4,11 +4,10 @@ import TodoItem from './TodoItem';
 import TodoResult from './TodoResult';
 import TodoTemplate from './TodoTemplate';
 
-const TodoList = ({ todos, onRemove, onToggle, onToggleStar }) => {
+const TodoList = ({ todos, onRemove, onToggle, onToggleStar,onTodoSort }) => {
   return (
     <div className="TodoList">
-      {todos.map((todo) => (
-
+      {todos.sort(onTodoSort).map((todo) => (
         <TodoItem
           todo={todo}
           key={todo.id}

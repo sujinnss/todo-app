@@ -11,11 +11,12 @@ import './TodoItem.scss';
 import { fromJS, is } from 'immutable';
 import Anime from 'react-anime';
 import moment from 'moment';
+import TodoInsert from './TodoInsert';
 
 const TodoItem = ({ todo, onRemove, onToggle, onToggleStar }) => {
     const { id, text, checked, star, date } = todo;
 
-    console.log(moment(date).format('YYYY[-]MM[-]DD'))
+    // console.log(moment(date).format('YYYY[-]MM[-]DD'))
 
 
     return (
@@ -44,15 +45,15 @@ const TodoItem = ({ todo, onRemove, onToggle, onToggleStar }) => {
                 <MdRemove />
             </div>
         </div>
-        </Anime>
+      </Anime>
     );
 };
-
-export default React.memo(TodoItem, (prevProps, nextProps) => {
-    // 다르면 memo를 하지 않음
-    if (!is(fromJS(prevProps.todo), fromJS(nextProps.todo))) {
-        return false
-    }
-    // 같으면 memo
-    return true
-});
+export default TodoItem;
+// export default React.memo(TodoItem, (prevProps, nextProps) => {
+//     // 다르면 memo를 하지 않음
+//     if (!is(fromJS(prevProps.todo), fromJS(nextProps.todo))) {
+//         return false
+//     }
+//     // 같으면 memo
+//     return true
+// });
