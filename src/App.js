@@ -4,7 +4,7 @@ import TodoInsert from './components/TodoInsert';
 import TodoList from './components/TodoList';
 import TodoResult from './components/TodoResult';
 
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu, } from 'antd';
 import { DesktopOutlined, PieChartOutlined } from '@ant-design/icons';
 
 
@@ -22,15 +22,12 @@ function App() {
         setSider(sider);
     };
 
-
-    //id가 4부터 추가되기 때문
-    const nextId = useRef(4);
+    const nextId = useRef(1);
 
     const onInsert = useCallback(
         (text, date) => {
             if (text === '') {
-                alert(date);
-                //alert('todo를 입력하세요');
+                alert('todo를 입력하세요');
             } else {
                 const todo = {
                     id: nextId.current,
@@ -79,7 +76,7 @@ function App() {
         [todos]
     );
 
-    // star로 sort()하는법 => 수정해야함
+    // star로 sort()하는법
     const onTodoSort = (a, b) => {
         let starA = a.star ? 0 : 1;
         let starB = b.star ? 0 : 1;
@@ -92,11 +89,11 @@ function App() {
             <Sider collapsible collapsed={sider} onCollapse={onCollapse}>
                 <div className="logo"/>
                 <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-                    <Menu.Item key="1">
+                    <Menu.Item >
                         <PieChartOutlined/>
                         <span>Option 1</span>
                     </Menu.Item>
-                    <Menu.Item key="2">
+                    <Menu.Item >
                         <DesktopOutlined/>
                         <span>Option 2</span>
                     </Menu.Item>

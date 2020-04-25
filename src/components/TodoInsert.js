@@ -23,7 +23,7 @@ const TodoInsert = ({ onInsert }) => {
             // setDate('');
             e.preventDefault();
         },
-        [onInsert, value]
+        [onInsert,value,date]
     );
 
     const handleDateChange = (date) => setDate(date);
