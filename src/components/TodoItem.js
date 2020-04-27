@@ -49,12 +49,7 @@ const TodoItem = ({ todo, onRemove, onToggle, onToggleStar }) => {
         </Anime>
     );
 };
-export default TodoItem;
-// export default React.memo(TodoItem, (prevProps, nextProps) => {
-//     // 다르면 memo를 하지 않음
-//     if (!is(fromJS(prevProps.todo), fromJS(nextProps.todo))) {
-//         return false
-//     }
-//     // 같으면 memo
-//     return true
-// });
+// export default TodoItem;
+export default React.memo(TodoItem, (prevProps, nextProps) => {
+    return is(fromJS(prevProps.todo), fromJS(nextProps.todo))
+});

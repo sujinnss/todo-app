@@ -26,7 +26,7 @@ const TodoInsert = ({ onInsert }) => {
         [onInsert,value,date]
     );
 
-    const handleDateChange = (date) => setDate(date);
+    const handleDateChange = useCallback((date) => setDate(date), [date]);
 
     //input의 value,onChange가 포인트
     return (
@@ -47,4 +47,4 @@ const TodoInsert = ({ onInsert }) => {
     );
 };
 
-export default TodoInsert;
+export default React.memo(TodoInsert);
