@@ -3,10 +3,10 @@ import './TodoInsert.scss';
 import { MdAdd, MdDateRange } from 'react-icons/md';
 import { DatePicker } from 'antd';
 import moment from 'moment';
+import { Button, notification } from 'antd';
 
 // props로 부터 onInsert를 props로 받음
 const TodoInsert = ({ onInsert }) => {
-
     // insert할때 날짜를 받아오려고
     const [date, setDate] = useState(moment());
 
@@ -18,15 +18,26 @@ const TodoInsert = ({ onInsert }) => {
 
     const onSubmit = useCallback(
         (e) => {
-            onInsert(value,date);
+            onInsert(value, date);
             setValue('');
             // setDate('');
             e.preventDefault();
         },
-        [onInsert,value,date]
+        [onInsert, value, date]
     );
 
     const handleDateChange = useCallback((date) => setDate(date), [date]);
+
+    // todo의 값이 빈값일경우 notification 알림
+    const Context = React.createContext({ name: 'Default' });
+    const [api, contextHolder] = notification.useNotification();
+
+    const openNotification = (placement) => {
+        api.info({
+            message: ` todo값을 입력하세요`,
+            placement,
+        });
+    };
 
     //input의 value,onChange가 포인트
     return (
@@ -40,9 +51,21 @@ const TodoInsert = ({ onInsert }) => {
             <div className="date">
                 <DatePicker value={date} onChange={handleDateChange} />
             </div>
-            <button className="submit" type="submit">
-                <MdAdd />
-            </button>
+
+            <Context.Provider value={{ name: 'Ant Design' }}>
+                {contextHolder}
+                <button
+                    className="submit"
+                    type="submit"
+                    onClick={() => {
+                        if (value === '') {
+                            openNotification('bottomRight');
+                        }
+                    }}
+                >
+                    <MdAdd />
+                </button>
+            </Context.Provider>
         </form>
     );
 };
