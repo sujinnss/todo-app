@@ -1,12 +1,12 @@
 import React, { useCallback, useRef, useState } from 'react';
 import TodoTemplate from './components/TodoTemplate';
-import TodoInsert from './components/TodoInsert';
-import TodoList from './components/TodoList';
-import TodoResult from './components/TodoResult';
-import { ColorConsumer, ColorProvider } from './contexts/color';
-
+import Test from './components/Test';
+import { ColorProvider } from './contexts/color';
 import { Layout, Menu } from 'antd';
-import { SmileOutlined, StarOutlined } from '@ant-design/icons';
+import { SmileOutlined, StarOutlined, CopyOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
+import Route from 'react-router-dom/es/Route';
+import Star from './components/Star';
 
 function App() {
     const { Content, Sider } = Layout;
@@ -37,24 +37,35 @@ function App() {
                         mode="inline"
                     >
                         <Menu.Item>
-                            <SmileOutlined />
-                            <span>오늘의 할일</span>
+                            <Link to="/today">
+                                <SmileOutlined />
+                                <span>오늘의 할일</span>
+                            </Link>
                         </Menu.Item>
                         <Menu.Item>
-                            <StarOutlined />
-                            <span>중요</span>
+                            <Link to="/star">
+                                <StarOutlined />
+                                <span>중요</span>
+                            </Link>
                         </Menu.Item>
-                        {/*<hr />*/}
+                        <hr style={{ border: '0.5px solid gray' }} />
                         <Menu.Item>
-                            <StarOutlined />
-                            <span>제목없는 목록</span>
+                            <Link to="/test">
+                                <CopyOutlined />
+                                <span>제목없는 목록</span>
+                            </Link>
                         </Menu.Item>
                     </Menu>
                 </Sider>
-
                 <Layout className="site-layout">
                     <div className="App">
-                        <TodoTemplate title={title} />
+                        <Route
+                            path={['/', '/today']}
+                            component={TodoTemplate}
+                            exact={true}
+                        />
+                        <Route path="/star" component={Star} exact={true} />
+                        <Route path="/test" component={Test} exact={true} />
                     </div>
                 </Layout>
             </Layout>
