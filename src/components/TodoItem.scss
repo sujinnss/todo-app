@@ -1,72 +1,67 @@
 .TodoItem {
-  //border: 1px solid red;
-  display: flex;
-  padding: 0.8rem;
-  background: white;
-  margin-bottom: 5px;
-  border-radius: 7px;
-
-  .checkbox {
-    flex: 1;
     display: flex;
-    align-items: center;
+    padding: 0.4rem 1.5rem;
+    background: white;
+    margin-bottom: 5px;
+    border-radius: 7px;
 
-    svg {
-      //border:1px solid #03bdd0;
-      cursor: pointer;
-      margin-right: 30px;
-      font-size: 2rem;
-      color: #686868;
-    }
+    .checkbox {
+        flex: 1;
+        display: flex;
+        align-items: center;
 
-    .textDate {
-      flex: 1;
-
-      .text {
-        font-size: 1.5rem;
-        //border: 1px solid #0090ff;
-        color: black;
-      }
-
-      &.checked {
         svg {
-          color: #6374bc;
+            cursor: pointer;
+            margin-right: 30px;
+            font-size: 2rem;
+            color: #686868;
         }
 
-        .text {
-          color: gray;
-          text-decoration: line-through;
+        .textDate {
+            flex: 1;
+            .text {
+                font-size: 1.2rem;
+                color: black;
+            }
         }
-      }
+        &.checked {
+            svg {
+                color: #6374bc;
 
-      .date {
-        font-size: 1rem;
+            }
 
-      }
+            .text {
+                color: gray;
+                text-decoration: line-through;
+            }
+        }
+
+        .date {
+            font-size: 0.9rem;
+        }
     }
-  }
 
-  .starbox {
-    //border:1px solid red;
-    display: flex;
-    align-items: center;
-    margin-right: 20px;
-    font-size: 2rem;
-    color: #686868;
-    cursor: pointer;
+    .starbox {
+        //border:1px solid red;
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
+        font-size: 2rem;
+        color: #686868;
+        cursor: pointer;
 
-    &.star {
-      svg {
-        color: yellow;
-      }
+        &.star {
+            svg {
+                color: yellow;
+            }
+        }
     }
-  }
 
-  .remove {
-    display: flex;
-    align-items: center;
-    font-size: 2rem;
-    color: #2b5f8c;
-    cursor: pointer;
-  }
+    .remove {
+        display: flex;
+        align-items: center;
+        font-size: 2rem;
+        color: #2b5f8c;
+        cursor: pointer;
+    }
 }
