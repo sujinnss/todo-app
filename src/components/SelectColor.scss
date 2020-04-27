@@ -1,20 +1,20 @@
 .SelectColor {
-    //right가 안먹힘
+    border:1px solid #00ff75;
     position: absolute;
-    //top:10px;
-    left:1000px;
+    right:50px;
     button.color {
-        position: relative;
-        top:0px;
-        left:320px;
-        width: 40px;
-        height: 40px;
+        //border:1px solid blue;
+        width: 30px;
+        height: 30px;
         background: rgba(255, 255, 255, 0.36);
         border: none;
         border-radius: 6px;
         cursor: pointer;
         svg {
-            font-size: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
         }
         &:hover {
             background: rgba(69, 69, 69, 0.4);
@@ -23,11 +23,13 @@
             outline: none;
         }
     }
-  div.sample{
-    float: end;
-    position:relative;
-    top:0px;
-    left:215px;
-    //border:1px solid hotpink;
-  }
+    div.sample {
+        width:300px;
+        height: 400px;
+        border:1px solid hotpink;
+        position: absolute;
+        right:0px;
+        //transition: all 2s;
+        //transition:transform 0.5s easy-in-out;
+    }
 }
