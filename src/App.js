@@ -44,14 +44,17 @@ function App() {
                             <StarOutlined />
                             <span>중요</span>
                         </Menu.Item>
+                        {/*<hr />*/}
+                        <Menu.Item>
+                            <StarOutlined />
+                            <span>제목없는 목록</span>
+                        </Menu.Item>
                     </Menu>
                 </Sider>
 
                 <Layout className="site-layout">
                     <div className="App">
-                        <TodoTemplate title={title}>
-                            {/*<TodoResult todos={todos}/>*/}
-                        </TodoTemplate>
+                        <TodoTemplate title={title} />
                     </div>
                 </Layout>
             </Layout>

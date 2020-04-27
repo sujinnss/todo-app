@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
 import './TodoTemplate.scss';
 import ColorContext, { ColorConsumer, ColorProvider } from '../contexts/color';
 import SelectColor from './SelectColor';
@@ -9,36 +15,33 @@ import { fromJS, is } from 'immutable';
 const TodoTemplate = () => {
     const value = useContext(ColorContext);
     const [todos, setTodos] = useState([]);
-    const currentTodos = useRef(todos)
+    const currentTodos = useRef(todos);
     const nextId = useRef(1);
 
     useEffect(() => {
-        currentTodos.current = todos
-    })
+        currentTodos.current = todos;
+    });
+
+    // 공백이면 경고창 => TodoInsert.js에서 Context를 사용함
     const onInsert = useCallback(
         (text, date) => {
-            if (text === '') {
-                alert('todo를 입력하세요');
-            } else {
-                const todo = {
-                    id: nextId.current,
-                    text,
-                    date,
-                    checked: false,
-                    star: false,
-                };
-                setTodos(todos.concat(todo));
-                nextId.current += 1;
-            }
+            const todo = {
+                id: nextId.current,
+                text,
+                date,
+                checked: false,
+                star: false,
+            };
+            setTodos(todos.concat(todo));
+            nextId.current += 1;
         },
         [todos]
     );
 
-
     // 원하는 항목 지우는 함수
     const onRemove = (id) => {
-        console.log(currentTodos.current)
-        console.log(todos)
+        console.log(currentTodos.current);
+        console.log(todos);
         setTodos(currentTodos.current.filter((todo) => todo.id !== id));
     };
 
@@ -58,7 +61,7 @@ const TodoTemplate = () => {
     const onToggleStar = useCallback(
         (id) => {
             setTodos(
-                todos.map((todo) =>
+                currentTodos.current.map((todo) =>
                     todo.id === id ? { ...todo, star: !todo.star } : todo
                 )
             );
@@ -74,10 +77,7 @@ const TodoTemplate = () => {
     }, []);
 
     return (
-        <div
-            className="TodoTemplate"
-            style={{ background: value.state.color }}
-        >
+        <div className="TodoTemplate" style={{ background: value.state.color }}>
             <SelectColor />
             <input
                 className="title"
