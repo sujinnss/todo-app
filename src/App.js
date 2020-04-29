@@ -1,12 +1,12 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import TodoTemplate from './components/TodoTemplate';
-import Test from './components/Test';
+import TodoListTemplate from './components/TodoListTemplate';
 import { ColorProvider } from './contexts/color';
 import { Layout, Menu } from 'antd';
 import { SmileOutlined, StarOutlined, CopyOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import Route from 'react-router-dom/es/Route';
-import Star from './components/Star';
+import TodoStarItem from './components/TodoStarItem';
 
 function App() {
     const { Content, Sider } = Layout;
@@ -19,8 +19,8 @@ function App() {
         setSider(sider);
     };
 
-    console.log('App Rendered');
-
+    // console.log('App Rendered');
+    // defaultSelectedKeys={['1']} : Menu.Item의 key=1을 선택한 상태로 시작
     return (
         <ColorProvider>
             <Layout style={{ minHeight: '100vh' }}>
@@ -36,21 +36,41 @@ function App() {
                         defaultSelectedKeys={['1']}
                         mode="inline"
                     >
-                        <Menu.Item>
+                        <Menu.Item
+                            key="1"
+                            style={{
+                                margin: '0px',
+                                height: '50px',
+                                lineHeight: '50px',
+                            }}
+                        >
                             <Link to="/today">
                                 <SmileOutlined />
                                 <span>오늘의 할일</span>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item>
+                        <Menu.Item
+                            key="2"
+                            style={{
+                                margin: '0px',
+                                height: '50px',
+                                lineHeight: '50px',
+                            }}
+                        >
                             <Link to="/star">
                                 <StarOutlined />
                                 <span>중요</span>
                             </Link>
                         </Menu.Item>
-                        <hr style={{ border: '0.5px solid gray' }} />
-                        <Menu.Item>
-                            <Link to="/test">
+                        <Menu.Item
+                            key="3"
+                            style={{
+                                margin: '0px',
+                                height: '50px',
+                                lineHeight: '50px',
+                            }}
+                        >
+                            <Link to="/list">
                                 <CopyOutlined />
                                 <span>제목없는 목록</span>
                             </Link>
@@ -61,11 +81,19 @@ function App() {
                     <div className="App">
                         <Route
                             path={['/', '/today']}
+                            component={TodoListTemplate}
+                            exact={true}
+                        />
+                        <Route
+                            path="/star"
+                            component={TodoStarItem}
+                            exact={true}
+                        />
+                        <Route
+                            path="/list"
                             component={TodoTemplate}
                             exact={true}
                         />
-                        <Route path="/star" component={Star} exact={true} />
-                        <Route path="/test" component={Test} exact={true} />
                     </div>
                 </Layout>
             </Layout>

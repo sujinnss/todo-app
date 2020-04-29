@@ -4,7 +4,9 @@
     background: white;
     margin-bottom: 5px;
     border-radius: 7px;
-
+    &:hover{
+       background: rgba(255, 255, 255, 0.86);
+    }
     .checkbox {
         flex: 1;
         display: flex;

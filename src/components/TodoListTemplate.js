@@ -5,15 +5,16 @@ import React, {
     useRef,
     useState,
 } from 'react';
-import './TodoTemplate.scss';
-import ColorContext, { ColorConsumer, ColorProvider } from '../contexts/color';
+import './TodoListTemplate.scss';
+import ColorContext from '../contexts/color';
 import SelectColor from './SelectColor';
 import TodoInsert from './TodoInsert';
 import TodoList from './TodoList';
-import { DatePicker } from 'antd';
+import moment from 'moment';
 
-const TodoTemplate = () => {
+const TodoListTemplate = () => {
     const value = useContext(ColorContext);
+    const date = moment().format('YYYY[년] MM[월] DD[일]');
     const [todos, setTodos] = useState([]);
     const currentTodos = useRef(todos);
     const nextId = useRef(1);
@@ -79,13 +80,15 @@ const TodoTemplate = () => {
     }, []);
 
     return (
-        <div className="TodoTemplate" style={{ background: value.state.color }}>
+        <div
+            className="TodoListTemplate"
+            style={{ background: value.state.color }}
+        >
             <SelectColor />
-            <input
-                className="title"
-                type="text"
-                placeholder="제목을 입력하세요"
-            />
+            <div className="title">
+                오늘의 할 일<p>{date}</p>
+            </div>
+
             <div className="contents">
                 <TodoInsert onInsert={onInsert} />
                 <TodoList
@@ -101,4 +104,4 @@ const TodoTemplate = () => {
     );
 };
 
-export default TodoTemplate;
+export default TodoListTemplate;

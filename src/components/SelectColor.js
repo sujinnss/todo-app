@@ -1,9 +1,20 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { ColorConsumer } from '../contexts/color';
 import { MdMoreHoriz } from 'react-icons/md';
 import './SelectColor.scss';
+import Anime from 'react-anime';
+import cn from 'classnames';
 
-const colors = ['red', 'orange', 'yellow', 'green', 'pink', 'indigo'];
+const colors = [
+    '#6374bc',
+    '#bc6387',
+    '#bc7f63',
+    '#aaa881',
+    '#7bbc63',
+    '#6398bc',
+    '#7663bc',
+    '#757e7f',
+];
 
 const SelectColor = () => {
     const [isShowConfig, setIsShowConfig] = useState(false);
@@ -16,30 +27,45 @@ const SelectColor = () => {
             >
                 <MdMoreHoriz />
             </button>
-            <ColorConsumer>
-                {({ actions }) => (
-                    <>
-                        {isShowConfig && (
-                            <div className="sample" style={{ display: 'flex' }}>
-                                {colors.map((color) => (
-                                    <div
-                                        className="colorBox"
-                                        key={color}
-                                        style={{
-                                            background: color,
-                                            width: '24px',
-                                            height: '24px',
-                                        }}
-                                        onClick={() => actions.setColor(color)}
-                                    />
-                                ))}
-                            </div>
-                        )}
-                    </>
-                )}
-            </ColorConsumer>
+            <Anime opacity={[1, 1]} translateY={[-10, 0]}>
+                <ColorConsumer>
+                    {({ actions }) => (
+                        <>
+                            {isShowConfig && (
+                                <div className="sample">
+                                    <div className="outerColorBox">
+                                        <div
+                                            style={{
+                                                fontSize: '15px',
+                                                marginBottom: '10px',
+                                                padding: '5px 0',
+                                                borderBottom: '1px solid gray',
+                                                color: 'black',
+                                            }}
+                                        >
+                                            테마 변경
+                                        </div>
+                                        {colors.map((color) => (
+                                            <div
+                                                className="colorBox"
+                                                key={color}
+                                                style={{
+                                                    background: color,
+                                                }}
+                                                onClick={() =>
+                                                    actions.setColor(color)
+                                                }
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </>
+                    )}
+                </ColorConsumer>
+            </Anime>
         </div>
     );
 };
 
-export default SelectColor;
+export default React.memo(SelectColor);
