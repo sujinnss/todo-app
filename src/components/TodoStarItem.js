@@ -10,9 +10,9 @@ import ColorContext, { ColorConsumer, ColorProvider } from '../contexts/color';
 import SelectColor from './SelectColor';
 import TodoInsert from './TodoInsert';
 import TodoList from './TodoList';
-import { DatePicker } from 'antd';
+import { StarOutlined } from '@ant-design/icons';
 
-const TodoTemplate = () => {
+const TodoStarItem = () => {
     const value = useContext(ColorContext);
     const [todos, setTodos] = useState([]);
     const currentTodos = useRef(todos);
@@ -81,15 +81,10 @@ const TodoTemplate = () => {
     return (
         <div className="TodoTemplate" style={{ background: value.state.color }}>
             <SelectColor />
-            <input
-                className="title"
-                type="text"
-                placeholder="제목을 입력하세요"
-            />
+            <div className="title">중요한 일</div>
             <div className="contents">
                 <TodoInsert onInsert={onInsert} />
                 <TodoList
-                    className="TodoList"
                     todos={todos}
                     onRemove={onRemove}
                     onToggle={onToggle}
@@ -101,4 +96,4 @@ const TodoTemplate = () => {
     );
 };
 
-export default TodoTemplate;
+export default TodoStarItem;

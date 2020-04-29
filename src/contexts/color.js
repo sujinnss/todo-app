@@ -2,7 +2,7 @@ import React from 'react';
 import { createContext, useState } from 'react';
 
 const ColorContext = createContext({
-    state: { color: 'blue' },
+    // state: { color: 'red' },
     actions: {
         setColor: () => {},
     },

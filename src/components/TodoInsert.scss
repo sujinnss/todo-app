@@ -6,7 +6,7 @@
   input {
     flex: 1;
     border: none;
-    padding: 1rem 1rem 1rem 3rem;
+    padding: 0.9rem 0.9rem 0.9rem 3rem;
     font-size: 1.2rem;
     line-height: 2rem;
     border-radius: 100rem;
@@ -14,7 +14,7 @@
     color: white;
 
     &::placeholder {
-      color: rgba(255, 255, 255, 0.75);
+      color: rgba(255, 255, 255, 0.49);
     }
 
     &:focus {

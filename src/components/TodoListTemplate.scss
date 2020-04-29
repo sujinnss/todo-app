@@ -1,5 +1,4 @@
-.TodoTemplate{
-
+.TodoListTemplate{
   height:100vh;
   padding:3rem;
   margin-left: auto;
@@ -8,7 +7,6 @@
   overflow: auto;
   .title{
     background: none;
-    border:none;
     display: block;
     margin: auto;
     margin-bottom: 3.5rem;
@@ -17,15 +15,11 @@
     text-align:center;
     font-size: 2rem;
     font-weight: bold;
-    &::placeholder{
-      color: rgba(255, 255, 255, 0.4);
-      text-align:center;
-    }
-    &:focus{
-     outline: none;
-    }
-   }
-
+  p{
+    font-size: 0.9rem;
+    font-weight:lighter;
+  }
+  }
   .TodoList{
     //border:1px solid yellow;
     max-height:55vh;

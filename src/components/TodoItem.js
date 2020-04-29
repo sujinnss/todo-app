@@ -15,7 +15,6 @@ import TodoInsert from './TodoInsert';
 
 const TodoItem = ({ todo, onRemove, onToggle, onToggleStar }) => {
     const { id, text, checked, star, date } = todo;
-    // console.log(moment(date).format('YYYY[-]MM[-]DD'))
     return (
         <Anime opacity={[0, 1]} translateX={[-250, 0]}>
             <div className="TodoItem">
@@ -49,7 +48,7 @@ const TodoItem = ({ todo, onRemove, onToggle, onToggleStar }) => {
         </Anime>
     );
 };
-// export default TodoItem;
+// 컴포넌트의 리렌더링을 방지하기위해 React.memo를 사용한다
 export default React.memo(TodoItem, (prevProps, nextProps) => {
-    return is(fromJS(prevProps.todo), fromJS(nextProps.todo))
+    return is(fromJS(prevProps.todo), fromJS(nextProps.todo));
 });
