@@ -18,6 +18,12 @@ const TodoStarItem = () => {
     const currentTodos = useRef(todos);
     const nextId = useRef(1);
 
+    // 테마 변경은 전체에 먹혀야함
+    const [isShowConfig, setIsShowConfig] = useState(false);
+    const onClickThem = () => {
+        setIsShowConfig(!isShowConfig);
+    };
+
     // currentTodos.current 를 사용해서 star,remove,check 를 해야 오류가 안남.
     // 렌더링 될때매다 특정작업을 수행
     useEffect(() => {
@@ -79,8 +85,17 @@ const TodoStarItem = () => {
     }, []);
 
     return (
-        <div className="TodoTemplate" style={{ background: value.state.color }}>
-            <SelectColor />
+        <div
+            className="TodoTemplate"
+            style={{ background: value.state.color }}
+            isShowConfig={isShowConfig}
+            onClickThem={onClickThem}
+            onClick={isShowConfig && onClickThem}
+        >
+            <SelectColor
+                isShowConfig={isShowConfig}
+                onClickThem={onClickThem}
+            />
             <div className="title">중요한 일</div>
             <div className="contents">
                 <TodoInsert onInsert={onInsert} />
