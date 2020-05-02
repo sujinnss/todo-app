@@ -7,23 +7,28 @@ import { SmileOutlined, StarOutlined, CopyOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import Route from 'react-router-dom/es/Route';
 import TodoStarItem from './components/TodoStarItem';
+import SelectColor from './components/SelectColor';
 
 function App() {
-    const { Content, Sider } = Layout;
+    const { Sider } = Layout;
     const [sider, setSider] = useState(false);
 
-    const title = '';
+    // const title = '';
 
     const onCollapse = (sider) => {
         console.log(sider);
         setSider(sider);
     };
 
+
+
     // console.log('App Rendered');
     // defaultSelectedKeys={['1']} : Menu.Item의 key=1을 선택한 상태로 시작
     return (
         <ColorProvider>
-            <Layout style={{ minHeight: '100vh' }}>
+            <Layout style={{ minHeight: '100vh' }} onClick={e=>{
+                console.log("App clicked! popup false");
+            }}>
                 <Sider
                     collapsible
                     collapsed={sider}
@@ -81,7 +86,7 @@ function App() {
                     <div className="App">
                         <Route
                             path={['/', '/today']}
-                            component={TodoListTemplate}
+                            component={TodoListTemplate}p
                             exact={true}
                         />
                         <Route

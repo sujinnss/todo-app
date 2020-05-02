@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ColorConsumer } from '../contexts/color';
 import { MdMoreHoriz } from 'react-icons/md';
 import './SelectColor.scss';
@@ -16,15 +16,16 @@ const colors = [
     '#757e7f',
 ];
 
-const SelectColor = () => {
-    const [isShowConfig, setIsShowConfig] = useState(false);
-
+const SelectColor = ({ isShowConfig, onClickThem }) => {
     return (
-        <div className="SelectColor">
-            <button
-                className="color"
-                onClick={() => setIsShowConfig(!isShowConfig)}
-            >
+        <div
+            className="SelectColor"
+            onClick={(e) => {
+                e.stopPropagation();
+                console.log('SelectColor clicked');
+            }}
+        >
+            <button className="color" onClick={onClickThem}>
                 <MdMoreHoriz />
             </button>
             <Anime opacity={[1, 1]} translateY={[-10, 0]}>
