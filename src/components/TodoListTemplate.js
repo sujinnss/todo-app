@@ -11,6 +11,7 @@ import SelectColor from './SelectColor';
 import TodoInsert from './TodoInsert';
 import TodoList from './TodoList';
 import moment from 'moment';
+import { set } from 'immutable';
 
 const TodoListTemplate = () => {
     const value = useContext(ColorContext);
@@ -21,9 +22,10 @@ const TodoListTemplate = () => {
 
     // 테마 변경은 전체에 먹혀야함
     const [isShowConfig, setIsShowConfig] = useState(false);
-    const onClickThem = () => {
+
+    const onClickThem = useCallback(() => {
         setIsShowConfig(!isShowConfig);
-    };
+    }, [isShowConfig]);
 
     // currentTodos.current 를 사용해서 star,remove,check 를 해야 오류가 안남.
     // 렌더링 될때매다 특정작업을 수행
