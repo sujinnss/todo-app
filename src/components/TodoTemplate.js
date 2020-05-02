@@ -20,9 +20,10 @@ const TodoTemplate = () => {
 
     // 테마 변경은 전체에 먹혀야함
     const [isShowConfig, setIsShowConfig] = useState(false);
-    const onClickThem = () => {
+
+    const onClickThem = useCallback(() => {
         setIsShowConfig(!isShowConfig);
-    };
+    }, [isShowConfig]);
 
     // currentTodoscurrent 를 사용해서 star,remove,check 를 해야 오류가 안남.
     // 렌더링 될때매다 특정작업을 수행
