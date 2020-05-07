@@ -16,9 +16,12 @@ import { set } from 'immutable';
 const TodoListTemplate = () => {
     const value = useContext(ColorContext);
     const date = moment().format('YYYY[년] MM[월] DD[일]');
-    const [todos, setTodos] = useState([]);
+    // const [todos, setTodos] = useState([]);
+    const [todos, setTodos] = useState(
+        JSON.parse(localStorage.getItem('todos')) || []
+    );
     const currentTodos = useRef(todos);
-    const nextId = useRef(1);
+    // const nextId = useRef(1);
 
     // 테마 변경은 전체에 먹혀야함
     const [isShowConfig, setIsShowConfig] = useState(false);
@@ -32,19 +35,23 @@ const TodoListTemplate = () => {
     useEffect(() => {
         currentTodos.current = todos;
     });
-
+    // +new Date() : +를 붙이면 숫자로 만들어줌
     // 공백이면 경고창 => TodoInsert.js에서 Context를 사용함
     const onInsert = useCallback(
         (text, date) => {
             const todo = {
-                id: nextId.current,
+                id: +new Date(),
                 text,
                 date,
                 checked: false,
                 star: false,
             };
+            localStorage.setItem(
+                'todos',
+                JSON.stringify(currentTodos.current.concat(todo))
+            );
             setTodos(todos.concat(todo));
-            nextId.current += 1;
+            // nextId.current += 1;
         },
         [todos]
     );

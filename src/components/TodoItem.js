@@ -16,7 +16,7 @@ import TodoInsert from './TodoInsert';
 const TodoItem = ({ todo, onRemove, onToggle, onToggleStar }) => {
     const { id, text, checked, star, date } = todo;
     return (
-        <Anime opacity={[0, 1]} translateX={[-250, 0]}>
+        <Anime opacity={[0, 1]} translateX={[-50, 0]}>
             <div className="TodoItem">
                 <div
                     className={cn('checkbox', { checked })}
