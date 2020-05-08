@@ -14,9 +14,11 @@ import { StarOutlined } from '@ant-design/icons';
 
 const TodoStarItem = () => {
     const value = useContext(ColorContext);
-    const [todos, setTodos] = useState([]);
-    const currentTodos = useRef(todos);
-    const nextId = useRef(1);
+    const [stars, setStars] = useState(
+        JSON.parse(localStorage.getItem('stars')) || []
+    );
+
+    const currentStars = useRef(stars);
 
     // 테마 변경은 전체에 먹혀야함
     const [isShowConfig, setIsShowConfig] = useState(false);
@@ -27,54 +29,71 @@ const TodoStarItem = () => {
     // currentTodos.current 를 사용해서 star,remove,check 를 해야 오류가 안남.
     // 렌더링 될때매다 특정작업을 수행
     useEffect(() => {
-        currentTodos.current = todos;
+        currentStars.current = stars;
     });
 
     // 공백이면 경고창 => TodoInsert.js에서 Context를 사용함
     const onInsert = useCallback(
         (text, date) => {
             const todo = {
-                id: nextId.current,
+                id: +new Date(),
                 text,
                 date,
                 checked: false,
-                star: false,
+                star: true,
             };
-            setTodos(todos.concat(todo));
-            nextId.current += 1;
+            localStorage.setItem(
+                'stars',
+                JSON.stringify(currentStars.current.concat(todo))
+            );
+            setStars(stars.concat(todo));
         },
-        [todos]
+        [stars]
     );
 
     // 원하는 항목 지우는 함수
     const onRemove = (id) => {
-        console.log(currentTodos.current);
-        console.log(todos);
-        setTodos(currentTodos.current.filter((todo) => todo.id !== id));
+        localStorage.setItem(
+            'stars',
+            JSON.stringify(
+                currentStars.current.filter((todo) => todo.id !== id)
+            )
+        );
+        setStars(currentStars.current.filter((todo) => todo.id !== id));
     };
 
     //check하는 함수 만들기
     const onToggle = useCallback(
         (id) => {
-            setTodos(
-                currentTodos.current.map((todo) =>
+            localStorage.setItem(
+                'stars',
+                JSON.stringify(
+                    currentStars.current.map((todo) =>
+                        todo.id === id
+                            ? { ...todo, checked: !todo.checked }
+                            : todo
+                    )
+                )
+            );
+            setStars(
+                currentStars.current.map((todo) =>
                     todo.id === id ? { ...todo, checked: !todo.checked } : todo
                 )
             );
         },
-        [todos]
+        [stars]
     );
 
-    // 별 클릭시 색상 변경
+    // 별 클릭시 중요라우터에서 할일 목록으로 이동(즉 localStorage의 stars애서 삭제 된다)
     const onToggleStar = useCallback(
         (id) => {
-            setTodos(
-                currentTodos.current.map((todo) =>
+            setStars(
+                currentStars.current.map((todo) =>
                     todo.id === id ? { ...todo, star: !todo.star } : todo
                 )
             );
         },
-        [todos]
+        [stars]
     );
 
     // star로 sort()하는법
@@ -100,7 +119,7 @@ const TodoStarItem = () => {
             <div className="contents">
                 <TodoInsert onInsert={onInsert} />
                 <TodoList
-                    todos={todos}
+                    todos={stars}
                     onRemove={onRemove}
                     onToggle={onToggle}
                     onToggleStar={onToggleStar}
