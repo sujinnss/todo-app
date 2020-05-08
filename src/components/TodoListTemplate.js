@@ -11,12 +11,11 @@ import SelectColor from './SelectColor';
 import TodoInsert from './TodoInsert';
 import TodoList from './TodoList';
 import moment from 'moment';
-import { set } from 'immutable';
+import { remove, set } from 'immutable';
 
 const TodoListTemplate = () => {
     const value = useContext(ColorContext);
     const date = moment().format('YYYY[년] MM[월] DD[일]');
-    // const [todos, setTodos] = useState([]);
     const [todos, setTodos] = useState(
         JSON.parse(localStorage.getItem('todos')) || []
     );
@@ -25,7 +24,6 @@ const TodoListTemplate = () => {
 
     // 테마 변경은 전체에 먹혀야함
     const [isShowConfig, setIsShowConfig] = useState(false);
-
     const onClickThem = useCallback(() => {
         setIsShowConfig(!isShowConfig);
     }, [isShowConfig]);
@@ -35,6 +33,7 @@ const TodoListTemplate = () => {
     useEffect(() => {
         currentTodos.current = todos;
     });
+
     // +new Date() : +를 붙이면 숫자로 만들어줌
     // 공백이면 경고창 => TodoInsert.js에서 Context를 사용함
     const onInsert = useCallback(
@@ -58,14 +57,29 @@ const TodoListTemplate = () => {
 
     // 원하는 항목 지우는 함수
     const onRemove = (id) => {
-        console.log(currentTodos.current);
-        console.log(todos);
+        // console.log(currentTodos.current);
+        localStorage.setItem(
+            'todos',
+            JSON.stringify(
+                currentTodos.current.filter((todo) => todo.id !== id)
+            )
+        );
         setTodos(currentTodos.current.filter((todo) => todo.id !== id));
     };
 
     //check하는 함수 만들기
     const onToggle = useCallback(
         (id) => {
+            localStorage.setItem(
+                'todos',
+                JSON.stringify(
+                    currentTodos.current.map((todo) =>
+                        todo.id === id
+                            ? { ...todo, checked: !todo.checked }
+                            : todo
+                    )
+                )
+            );
             setTodos(
                 currentTodos.current.map((todo) =>
                     todo.id === id ? { ...todo, checked: !todo.checked } : todo
@@ -75,12 +89,28 @@ const TodoListTemplate = () => {
         [todos]
     );
 
-    // 별 클릭시 색상 변경
+    // 별 클릭시 색상 변경 & 그와 동시에 그 todo는 중요 라우터에 복사된다.
     const onToggleStar = useCallback(
         (id) => {
+            localStorage.setItem(
+                'todos',
+                JSON.stringify(
+                    currentTodos.current.map((todo) =>
+                        todo.id === id ? { ...todo, star: !todo.star } : todo
+                    )
+                )
+            );
             setTodos(
                 currentTodos.current.map((todo) =>
                     todo.id === id ? { ...todo, star: !todo.star } : todo
+                )
+            );
+            // 중요 페이지에 추가한다 (star:true인 list가) , " 조건: star가 true 일때 발생하는 소스"
+            // 여기부터 수정
+            localStorage.setItem(
+                'stars',
+                JSON.stringify(
+                    currentTodos.current.filter((todo) => todo.star === true)
                 )
             );
         },
@@ -106,9 +136,7 @@ const TodoListTemplate = () => {
                 isShowConfig={isShowConfig}
                 onClickThem={onClickThem}
             />
-            <div className="title">
-                오늘의 할 일<p>{date}</p>
-            </div>
+            <div className="title">할 일</div>
 
             <div className="contents">
                 <TodoInsert onInsert={onInsert} />

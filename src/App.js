@@ -20,15 +20,16 @@ function App() {
         setSider(sider);
     };
 
-
-
     // console.log('App Rendered');
     // defaultSelectedKeys={['1']} : Menu.Item의 key=1을 선택한 상태로 시작
     return (
         <ColorProvider>
-            <Layout style={{ minHeight: '100vh' }} onClick={e=>{
-                console.log("App clicked! popup false");
-            }}>
+            <Layout
+                style={{ minHeight: '100vh' }}
+                onClick={(e) => {
+                    console.log('App clicked! popup false');
+                }}
+            >
                 <Sider
                     collapsible
                     collapsed={sider}
@@ -51,7 +52,7 @@ function App() {
                         >
                             <Link to="/today">
                                 <SmileOutlined />
-                                <span>오늘의 할일</span>
+                                <span>할일</span>
                             </Link>
                         </Menu.Item>
                         <Menu.Item
@@ -86,7 +87,8 @@ function App() {
                     <div className="App">
                         <Route
                             path={['/', '/today']}
-                            component={TodoListTemplate}p
+                            component={TodoListTemplate}
+                            p
                             exact={true}
                         />
                         <Route
