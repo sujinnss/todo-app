@@ -5,7 +5,8 @@ import { ColorProvider } from './contexts/color';
 import { Layout, Menu } from 'antd';
 import { SmileOutlined, StarOutlined, CopyOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-import Route from 'react-router-dom/es/Route';
+// import Route from 'react-router-dom/es/Route';
+import { Route } from 'react-router-dom';
 import TodoStarItem from './components/TodoStarItem';
 import SelectColor from './components/SelectColor';
 
@@ -19,7 +20,7 @@ function App() {
         console.log(sider);
         setSider(sider);
     };
-
+    // TODO refresh 할 경우 라우터 수정
     // console.log('App Rendered');
     // defaultSelectedKeys={['1']} : Menu.Item의 key=1을 선택한 상태로 시작
     return (

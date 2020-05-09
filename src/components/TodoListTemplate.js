@@ -13,6 +13,7 @@ import TodoList from './TodoList';
 import moment from 'moment';
 import { remove, set } from 'immutable';
 
+//TODO console 에러 잡기
 const TodoListTemplate = () => {
     const value = useContext(ColorContext);
     const date = moment().format('YYYY[년] MM[월] DD[일]');
@@ -32,6 +33,7 @@ const TodoListTemplate = () => {
     // 렌더링 될때매다 특정작업을 수행
     useEffect(() => {
         currentTodos.current = todos;
+        updateStarList(currentTodos.current);
     });
 
     // +new Date() : +를 붙이면 숫자로 만들어줌
@@ -105,17 +107,17 @@ const TodoListTemplate = () => {
                     todo.id === id ? { ...todo, star: !todo.star } : todo
                 )
             );
-            // 중요 페이지에 추가한다 (star:true인 list가) , " 조건: star가 true 일때 발생하는 소스"
-            // 여기부터 수정
-            localStorage.setItem(
-                'stars',
-                JSON.stringify(
-                    currentTodos.current.filter((todo) => todo.star === true)
-                )
-            );
         },
         [todos]
     );
+    // star가 true일 경우 localStorage 의 stars 에 넣는 함수
+    // TODO 함수명 바꾸기
+    const updateStarList = (todos) => {
+        localStorage.setItem(
+            'stars',
+            JSON.stringify(todos.filter((todo) => todo.star === true))
+        );
+    };
 
     // star로 sort()하는법
     const onTodoSort = useCallback((a, b) => {
