@@ -84,6 +84,7 @@ const TodoStarItem = () => {
         [stars]
     );
 
+    // TODO star가 false가 될경우 localStorage.star에서 삭제
     // 별 클릭시 중요라우터에서 할일 목록으로 이동(즉 localStorage의 stars애서 삭제 된다)
     const onToggleStar = useCallback(
         (id) => {
