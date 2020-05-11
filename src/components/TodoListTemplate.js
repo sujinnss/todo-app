@@ -12,6 +12,7 @@ import TodoInsert from './TodoInsert';
 import TodoList from './TodoList';
 import moment from 'moment';
 import { remove, set } from 'immutable';
+import Anime from 'react-anime';
 
 //TODO console 에러 잡기
 const TodoListTemplate = () => {
@@ -20,7 +21,13 @@ const TodoListTemplate = () => {
     const [todos, setTodos] = useState(
         JSON.parse(localStorage.getItem('todos')) || []
     );
+    const [complete, setComplete] = useState(
+        JSON.parse(localStorage.getItem('complete')) || []
+    );
+
     const currentTodos = useRef(todos);
+    const currentComplete = useRef(complete);
+
     // const nextId = useRef(1);
 
     // 테마 변경은 전체에 먹혀야함
@@ -33,7 +40,9 @@ const TodoListTemplate = () => {
     // 렌더링 될때매다 특정작업을 수행
     useEffect(() => {
         currentTodos.current = todos;
+        currentComplete.current = complete;
         updateStarList(currentTodos.current);
+        // updateCompleteList(currentComplete.current);
     });
 
     // +new Date() : +를 붙이면 숫자로 만들어줌
@@ -58,33 +67,44 @@ const TodoListTemplate = () => {
     );
 
     // 원하는 항목 지우는 함수
-    const onRemove = (id) => {
-        // console.log(currentTodos.current);
-        localStorage.setItem(
-            'todos',
-            JSON.stringify(
-                currentTodos.current.filter((todo) => todo.id !== id)
-            )
-        );
-        setTodos(currentTodos.current.filter((todo) => todo.id !== id));
-    };
+    const onRemove = useCallback(
+        (id) => {
+            // console.log(currentTodos.current);
+            localStorage.setItem(
+                'todos',
+                JSON.stringify(
+                    currentTodos.current.filter((todo) => todo.id !== id)
+                )
+            );
+            setTodos(currentTodos.current.filter((todo) => todo.id !== id));
+        },
+        [todos]
+    );
 
-    //check하는 함수 만들기
+    //체크 하는 함수 만들기 ->
+    //TODO 완료시 완료된 list로 추가
     const onToggle = useCallback(
         (id) => {
             localStorage.setItem(
                 'todos',
                 JSON.stringify(
-                    currentTodos.current.map((todo) =>
-                        todo.id === id
-                            ? { ...todo, checked: !todo.checked }
-                            : todo
+                    currentTodos.current.filter((todo) => todo.id !== id)
+                )
+            );
+            setTodos(currentTodos.current.filter((todo) => todo.id !== id));
+
+            //localStorage의 complete에 들어가는 내용
+            localStorage.setItem(
+                'complete',
+                JSON.stringify(
+                    currentComplete.current.concat(
+                        currentTodos.current.filter((todo) => todo.id === id)
                     )
                 )
             );
-            setTodos(
-                currentTodos.current.map((todo) =>
-                    todo.id === id ? { ...todo, checked: !todo.checked } : todo
+            setComplete(
+                complete.concat(
+                    currentTodos.current.filter((todo) => todo.id === id)
                 )
             );
         },
@@ -111,13 +131,20 @@ const TodoListTemplate = () => {
         [todos]
     );
     // star가 true일 경우 localStorage 의 stars 에 넣는 함수
-    // TODO 함수명 바꾸기
     const updateStarList = (todos) => {
         localStorage.setItem(
             'stars',
             JSON.stringify(todos.filter((todo) => todo.star === true))
         );
     };
+
+    // //checkout이 true 일 경우 localStorage의 complete에 넣는 함수
+    // const updateCompleteList = (todos) => {
+    //     localStorage.setItem(
+    //         'complete',
+    //         JSON.stringify(todos.filter((todo) => todo.checked === true))
+    //     );
+    // };
 
     // star로 sort()하는법
     const onTodoSort = useCallback((a, b) => {

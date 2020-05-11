@@ -4,48 +4,47 @@
     background: white;
     margin-bottom: 5px;
     border-radius: 7px;
-    &:hover{
-       background: rgba(255, 255, 255, 0.86);
+    &:hover {
+        background: rgba(255, 255, 255, 0.86);
         cursor: pointer;
     }
-    .checkbox {
-        flex: 1;
+
+    .checkDate {
         display: flex;
-        align-items: center;
-
-        svg {
-            cursor: pointer;
-            margin-right: 30px;
-            font-size: 2rem;
-            color: #686868;
-        }
-
-        .textDate {
-            flex: 1;
-            .text {
-                font-size: 1.2rem;
-                color: black;
-            }
-        }
-        &.checked {
+        flex: 1;
+        .checkbox {
+            display: flex;
+            align-items: center;
             svg {
-                color: #6374bc;
-
+                display: flex;
+                cursor: pointer;
+                font-size: 2rem;
+                color: #686868;
             }
-
-            .text {
-                color: gray;
-                text-decoration: line-through;
+            &.checked {
+                svg {
+                    color: #6374bc;
+                }
+                // 글자에 데코레이션 먹게하기
+                .text {
+                    color: gray;
+                    text-decoration: line-through;
+                }
             }
-        }
-
-        .date {
-            font-size: 0.9rem;
         }
     }
-
+    .textDate {
+        margin-left: 30px;
+        //display: block;
+        .text {
+            font-size: 1.2rem;
+            color: black;
+        }
+    }
+    .date {
+        font-size: 0.9rem;
+    }
     .starbox {
-        //border:1px solid red;
         display: flex;
         align-items: center;
         margin-right: 20px;

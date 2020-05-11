@@ -95,12 +95,12 @@ function App() {
                         <Route
                             path="/star"
                             component={TodoStarItem}
-                            exact={true}
+                            // exact={true}
                         />
                         <Route
                             path="/list"
                             component={TodoTemplate}
-                            exact={true}
+                            // exact={true}
                         />
                     </div>
                 </Layout>

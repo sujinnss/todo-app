@@ -84,25 +84,19 @@ const TodoStarItem = () => {
         [stars]
     );
 
-    // TODO star가 false가 될경우 localStorage.star에서 삭제
     // 별 클릭시 중요라우터에서 할일 목록으로 이동(즉 localStorage의 stars애서 삭제 된다)
     const onToggleStar = useCallback(
         (id) => {
-            setStars(
-                currentStars.current.map((todo) =>
-                    todo.id === id ? { ...todo, star: !todo.star } : todo
+            localStorage.setItem(
+                'stars',
+                JSON.stringify(
+                    currentStars.current.filter((todo) => todo.id !== id)
                 )
             );
+            setStars(currentStars.current.filter((todo) => todo.id !== id));
         },
         [stars]
     );
-
-    // star로 sort()하는법
-    const onTodoSort = useCallback((a, b) => {
-        let starA = a.star ? 0 : 1;
-        let starB = b.star ? 0 : 1;
-        return starA - starB;
-    }, []);
 
     return (
         <div
@@ -124,7 +118,6 @@ const TodoStarItem = () => {
                     onRemove={onRemove}
                     onToggle={onToggle}
                     onToggleStar={onToggleStar}
-                    onTodoSort={onTodoSort}
                 />
             </div>
         </div>
