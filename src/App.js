@@ -89,7 +89,6 @@ function App() {
                         <Route
                             path={['/', '/today']}
                             component={TodoListTemplate}
-                            p
                             exact={true}
                         />
                         <Route
