@@ -13,16 +13,19 @@ import SelectColor from './components/SelectColor';
 function App() {
     const { Sider } = Layout;
     const [sider, setSider] = useState(false);
-
-    // const title = '';
-
     const onCollapse = (sider) => {
         console.log(sider);
         setSider(sider);
     };
-    // TODO refresh 할 경우 라우터 수정
-    // console.log('App Rendered');
-    // defaultSelectedKeys={['1']} : Menu.Item의 key=1을 선택한 상태로 시작
+
+    const allDatas = [
+        { key: '/', title: '할일', todos: [] },
+        { key: 'star', title: '중요', todos: [] },
+        { key: 'ex', title: '예시', todos: [] },
+    ];
+
+    localStorage.setItem('allDatas', JSON.stringify(allDatas));
+
     return (
         <ColorProvider>
             <Layout
@@ -40,67 +43,37 @@ function App() {
                     <div className="logo" />
                     <Menu
                         theme="dark"
-                        defaultSelectedKeys={['1']}
+                        defaultSelectedKeys={['/']}
                         mode="inline"
                     >
-                        <Menu.Item
-                            key="1"
-                            style={{
-                                margin: '0px',
-                                height: '50px',
-                                lineHeight: '50px',
-                            }}
-                        >
-                            <Link to="/today">
-                                <SmileOutlined />
-                                <span>할일</span>
-                            </Link>
-                        </Menu.Item>
-                        <Menu.Item
-                            key="2"
-                            style={{
-                                margin: '0px',
-                                height: '50px',
-                                lineHeight: '50px',
-                            }}
-                        >
-                            <Link to="/star">
-                                <StarOutlined />
-                                <span>중요</span>
-                            </Link>
-                        </Menu.Item>
-                        <Menu.Item
-                            key="3"
-                            style={{
-                                margin: '0px',
-                                height: '50px',
-                                lineHeight: '50px',
-                            }}
-                        >
-                            <Link to="/list">
-                                <CopyOutlined />
-                                <span>제목없는 목록</span>
-                            </Link>
-                        </Menu.Item>
+                        {allDatas.map((list) => (
+                            <Menu.Item
+                                key={list.key}
+                                style={{
+                                    margin: '0px',
+                                    height: '50px',
+                                    lineHeight: '50px',
+                                }}
+                            >
+                                <Link to={list.key}>{list.title}</Link>
+                            </Menu.Item>
+                        ))}
                     </Menu>
                 </Sider>
                 <Layout className="site-layout">
                     <div className="App">
                         <Route
-                            path={['/', '/today']}
-                            component={TodoListTemplate}
-                            p
-                            exact={true}
+                            path="/"
+                            exact
+                            children={<TodoListTemplate title={'할일'} />}
                         />
                         <Route
                             path="/star"
-                            component={TodoStarItem}
-                            // exact={true}
+                            children={<TodoListTemplate title={'중요'} />}
                         />
                         <Route
-                            path="/list"
-                            component={TodoTemplate}
-                            // exact={true}
+                            path="/ex"
+                            children={<TodoListTemplate title={'예시'} />}
                         />
                     </div>
                 </Layout>

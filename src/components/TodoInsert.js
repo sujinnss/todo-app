@@ -9,7 +9,6 @@ import { Button, notification } from 'antd';
 const TodoInsert = ({ onInsert }) => {
     // insert할때 날짜를 받아오려고
     const [date, setDate] = useState(moment());
-
     const [value, setValue] = useState('');
 
     const onChange = useCallback((e) => {

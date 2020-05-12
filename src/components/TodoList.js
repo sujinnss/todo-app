@@ -1,10 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import './TodoList.scss';
 import TodoItem from './TodoItem';
-import Anime from 'react-anime';
-import { fromJS, is } from 'immutable';
 
-//
+//  todos={allDatas[todoIndex].todos}
 const TodoList = ({ todos, onRemove, onToggle, onToggleStar, onTodoSort }) => {
     return (
         <div className="TodoList">
