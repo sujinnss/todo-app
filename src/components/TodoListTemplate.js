@@ -12,6 +12,7 @@ import TodoInsert from './TodoInsert';
 import TodoList from './TodoList';
 import moment from 'moment';
 import { remove, set } from 'immutable';
+import * as todoService from '../service/todoService';
 
 //TODO console 에러 잡기
 const TodoListTemplate = () => {
@@ -94,14 +95,11 @@ const TodoListTemplate = () => {
     // 별 클릭시 색상 변경 & 그와 동시에 그 todo는 중요 라우터에 복사된다.
     const onToggleStar = useCallback(
         (id) => {
-            localStorage.setItem(
-                'todos',
-                JSON.stringify(
-                    currentTodos.current.map((todo) =>
-                        todo.id === id ? { ...todo, star: !todo.star } : todo
-                    )
-                )
-            );
+            const list = currentTodos.current.map((todo) =>
+                todo.id === id ? { ...todo, star: !todo.star } : todo
+            )
+            todoService.setTodos(list)
+
             setTodos(
                 currentTodos.current.map((todo) =>
                     todo.id === id ? { ...todo, star: !todo.star } : todo
