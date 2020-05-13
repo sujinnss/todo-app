@@ -5,6 +5,8 @@ import React, {
     useRef,
     useState,
 } from 'react';
+import { useParams } from 'react-router-dom';
+
 import './TodoListTemplate.scss';
 import ColorContext from '../contexts/color';
 import SelectColor from './SelectColor';
@@ -23,20 +25,20 @@ const TodoListTemplate = ({ title }) => {
         setIsShowConfig(!isShowConfig);
     }, [isShowConfig]);
 
+    const { id } = useParams();
+    console.log(id);
+
     const [allDatas, setAllDatas] = useState(
         JSON.parse(localStorage.getItem('allDatas'))
     );
+    const [data, setData] = useState(allDatas[0]);
 
-    // const allDatas = JSON.parse(localStorage.getItem('allDatas'));
-    const todoIndex = allDatas.findIndex((todo) => todo.title === title);
+    const todoIndex = allDatas.findIndex((todo) => todo.key === id);
 
-    // currentTodos.current 를 사용해서 star,remove,check 를 해야 오류가 안남.
-    // 렌더링 될때매다 특정작업을 수행
-    // useEffect(() => {
-    //     currentDatas.current = allDatas;
-    //     console.log('rendering');
-    // });
-
+    useEffect(() => {
+        let initData = todoIndex > -1 ? allDatas[todoIndex] : allDatas[0];
+        setData(initData);
+    }, [id]);
     // +new Date() : +를 붙이면 숫자로 만들어줌
     // 공백이면 경고창 => TodoInsert.js에서 Context를 사용함
     const onInsert = useCallback(
@@ -48,12 +50,13 @@ const TodoListTemplate = ({ title }) => {
                 checked: false,
                 star: false,
             };
-            allDatas[todoIndex].todos.push(todo);
+            allDatas[todoIndex].todos.concat(todo);
+            // setAllDatas(allDatas[todoIndex].todos.concat(todo));
 
-            localStorage.setItem('allDatas', JSON.stringify(allDatas));
-            setAllDatas(JSON.stringify(allDatas));
+            // allDatas[todoIndex].todos.push(todo);
+            // setAllDatas(allDatas);
+            // localStorage.setItem('allDatas', JSON.stringify(allDatas));
         },
-
         [allDatas]
     );
 
@@ -66,7 +69,7 @@ const TodoListTemplate = ({ title }) => {
                     allDatas[todoIndex].todos.filter((todo) => todo.id !== id)
                 )
             );
-            setAllDatas(JSON.stringify(allDatas));
+            // setAllDatas(JSON.stringify(allDatas));
         },
         [allDatas]
     );
@@ -84,7 +87,7 @@ const TodoListTemplate = ({ title }) => {
                     )
                 )
             );
-            setAllDatas(JSON.stringify(allDatas));
+            // setAllDatas(JSON.stringify(allDatas));
         },
         [allDatas]
     );
@@ -100,7 +103,7 @@ const TodoListTemplate = ({ title }) => {
                     )
                 )
             );
-            setAllDatas(JSON.stringify(allDatas));
+            // setAllDatas(JSON.stringify(allDatas));
         },
         [allDatas]
     );
@@ -127,13 +130,13 @@ const TodoListTemplate = ({ title }) => {
                 isShowConfig={isShowConfig}
                 onClickThem={onClickThem}
             />
-            <div className="title">{title}</div>
+            <div className="title">{title || data.title}</div>
 
             <div className="contents">
                 <TodoInsert onInsert={onInsert} />
                 <TodoList
                     className="TodoList"
-                    todos={allDatas[todoIndex].todos}
+                    todos={data.todos}
                     onRemove={onRemove}
                     onToggle={onToggle}
                     onToggleStar={onToggleStar}
