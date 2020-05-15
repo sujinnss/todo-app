@@ -16,13 +16,19 @@ import TodoInsert from './TodoInsert';
 const TodoItem = ({ todo, onRemove, onToggle, onToggleStar }) => {
     const { id, text, checked, star, date, parent } = todo;
     return (
-        <Anime opacity={[0, 1]} translateX={[-50, 0]}>
+        <Anime opacity={[0, 1]} translateX={[-40, 0]}>
             <div className="TodoItem">
-                <div
-                    className={cn('checkbox', { checked })}
-                    onClick={() => onToggle(id)}
-                >
-                    {checked ? <MdCheckCircle /> : <MdRadioButtonUnchecked />}
+                <div className="checkDate">
+                    <div
+                        className={cn('checkbox', { checked })}
+                        onClick={() => onToggle(id)}
+                    >
+                        {checked ? (
+                            <MdCheckCircle />
+                        ) : (
+                            <MdRadioButtonUnchecked />
+                        )}
+                    </div>
                     <div className="textDate">
                         <div className="text">{text}</div>
                         <div className="date">

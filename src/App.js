@@ -12,8 +12,7 @@ import SelectColor from './components/SelectColor';
 function App() {
     const { Sider } = Layout;
     const [sider, setSider] = useState(false);
-
-    // 저장 돼 있으면
+// 저장 돼 있으면
     let initAllDatas;
     if (localStorage.getItem('allDatas')) {
         initAllDatas = JSON.parse(localStorage.getItem('allDatas'));
@@ -26,13 +25,12 @@ function App() {
         localStorage.setItem('allDatas', JSON.stringify(initAllDatas));
     }
     const [allDatas, setAllDatas] = useState(initAllDatas);
-
     const onCollapse = (sider) => {
         console.log(sider);
         setSider(sider);
     };
 
-    const saveAll = (allDatas) => {
+const saveAll = (allDatas) => {
         setAllDatas(allDatas);
         localStorage.setItem('allDatas', JSON.stringify(allDatas));
     };

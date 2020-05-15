@@ -1,26 +1,25 @@
 .TodoList {
-  //border:1px solid red;
-  //max-height: 50rem;
-  //min-height: 400px;
-  overflow-y: auto;
+    //border:1px solid red;
+    //max-height: 50rem;
+    //min-height: 400px;
+    overflow-y: auto;
 
-  &::-webkit-scrollbar {
-    width: 10px;
-    background-color: #a09c9c;
-  }
+    &::-webkit-scrollbar {
+        width: 10px;
+        background-color: #a09c9c;
+    }
 
-  &::-webkit-scrollbar-thumb {
-    background-color: #b8b8b8;
-    border-radius: 10px;
-  }
+    &::-webkit-scrollbar-thumb {
+        background-color: #b8b8b8;
+        border-radius: 10px;
+    }
 
-  &::-webkit-scrollbar-track {
-    background-color: #e3e3e3;
-    border-radius: 10px;
-  }
+    &::-webkit-scrollbar-track {
+        background-color: #e3e3e3;
+        border-radius: 10px;
+    }
 
-  .done {
-    border: 1px solid red;
-  }
-
+    .done {
+        border: 1px solid red;
+    }
 }
