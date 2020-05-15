@@ -14,7 +14,7 @@ import moment from 'moment';
 import TodoInsert from './TodoInsert';
 
 const TodoItem = ({ todo, onRemove, onToggle, onToggleStar }) => {
-    const { id, text, checked, star, date } = todo;
+    const { id, text, checked, star, date, parent } = todo;
     return (
         <Anime opacity={[0, 1]} translateX={[-50, 0]}>
             <div className="TodoItem">
