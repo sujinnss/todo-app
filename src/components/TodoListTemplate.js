@@ -5,17 +5,18 @@ import React, {
     useRef,
     useState,
 } from 'react';
-import { useParams } from 'react-router-dom';
-
 import './TodoListTemplate.scss';
 import ColorContext from '../contexts/color';
 import SelectColor from './SelectColor';
 import TodoInsert from './TodoInsert';
 import TodoList from './TodoList';
 import moment from 'moment';
+import { useParams } from 'react-router';
 
 //TODO console 에러 잡기
-const TodoListTemplate = ({ title }) => {
+const TodoListTemplate = ({ allDatas, saveAll }) => {
+    let { id } = useParams();
+
     const value = useContext(ColorContext);
     const date = moment().format('YYYY[년] MM[월] DD[일]');
 
@@ -25,20 +26,30 @@ const TodoListTemplate = ({ title }) => {
         setIsShowConfig(!isShowConfig);
     }, [isShowConfig]);
 
-    const { id } = useParams();
-    console.log(id);
+    console.log('id는 ' + id);
 
-    const [allDatas, setAllDatas] = useState(
-        JSON.parse(localStorage.getItem('allDatas'))
-    );
-    const [data, setData] = useState(allDatas[0]);
+    const tempIndex = allDatas.findIndex((todo) => todo.key === id);
+    const todoIndex = tempIndex > -1 ? tempIndex : 0;
 
-    const todoIndex = allDatas.findIndex((todo) => todo.key === id);
+    // allDatas의 초기값은 allDatas의 0번째 배열 (즉 할일 목록)
+    const [data, setData] = useState(allDatas[todoIndex]);
+    const currentData = useRef(data);
 
     useEffect(() => {
-        let initData = todoIndex > -1 ? allDatas[todoIndex] : allDatas[0];
-        setData(initData);
+        currentData.current = data;
+    });
+
+    useEffect(() => {
+        let todoData = allDatas[todoIndex];
+        setData(todoData);
+
+        console.log(todoIndex);
+        console.log('useEffect 실행');
+        console.log('todoIndex: ' + todoIndex);
+        console.log('init: ' + JSON.stringify(todoData));
+        console.log('data: ' + JSON.stringify(data));
     }, [id]);
+
     // +new Date() : +를 붙이면 숫자로 만들어줌
     // 공백이면 경고창 => TodoInsert.js에서 Context를 사용함
     const onInsert = useCallback(
@@ -49,63 +60,87 @@ const TodoListTemplate = ({ title }) => {
                 date,
                 checked: false,
                 star: false,
+                parent: id,
             };
-            allDatas[todoIndex].todos.concat(todo);
-            // setAllDatas(allDatas[todoIndex].todos.concat(todo));
 
-            // allDatas[todoIndex].todos.push(todo);
-            // setAllDatas(allDatas);
-            // localStorage.setItem('allDatas', JSON.stringify(allDatas));
+            const result = {
+                ...currentData.current,
+                todos: currentData.current.todos.concat(todo),
+            };
+            setData(result);
+            const allDatasClone = allDatas.slice();
+            allDatasClone.splice(todoIndex, 1, result);
+            saveAll(allDatasClone);
+            console.log(todoIndex);
+            console.log(result);
+            console.log('현재 data: ' + JSON.stringify(data));
+            console.log('현재 입력값은:' + JSON.stringify(todo) + '입력됨');
+            console.log(allDatas);
         },
-        [allDatas]
+        [data]
     );
 
     // 원하는 항목 지우는 함수
     const onRemove = useCallback(
         (id) => {
-            localStorage.setItem(
-                'allDatas',
-                JSON.stringify(
-                    allDatas[todoIndex].todos.filter((todo) => todo.id !== id)
-                )
-            );
-            // setAllDatas(JSON.stringify(allDatas));
+            const result = {
+                ...currentData.current,
+                todos: currentData.current.todos.filter(
+                    (todo) => todo.id !== id
+                ),
+            };
+            setData(result);
+            const allDatasClone = allDatas.slice();
+            allDatasClone.splice(todoIndex, 1, result);
+            saveAll(allDatasClone);
+
+            console.log('remove 실행');
         },
-        [allDatas]
+        [data]
     );
 
     //체크 하는 함수 만들기
     const onToggle = useCallback(
         (id) => {
-            localStorage.setItem(
-                'allDatas',
-                JSON.stringify(
-                    allDatas[todoIndex].todos.map((todo) =>
-                        todo.id === id
-                            ? { ...todo, checked: !todo.checked }
-                            : todo
-                    )
-                )
-            );
+            const result = {
+                ...currentData.current,
+                todos: currentData.current.todos.map((todo) =>
+                    todo.id === id ? { ...todo, checked: !todo.checked } : todo
+                ),
+            };
+            setData(result);
+            const allDatasClone = allDatas.slice();
+            allDatasClone.splice(todoIndex, 1, result);
+            saveAll(allDatasClone);
+
+            console.log(id);
+            console.log(todoIndex);
+            console.log(result);
             // setAllDatas(JSON.stringify(allDatas));
         },
-        [allDatas]
+        [data]
     );
 
     // 별 클릭시 색상 변경
     const onToggleStar = useCallback(
         (id) => {
-            localStorage.setItem(
-                'allDatas',
-                JSON.stringify(
-                    allDatas[todoIndex].todos.map((todo) =>
-                        todo.id === id ? { ...todo, star: !todo.star } : todo
-                    )
-                )
-            );
-            // setAllDatas(JSON.stringify(allDatas));
+            const result = {
+                ...currentData.current,
+                todos: currentData.current.todos.map((todo) =>
+                    todo.id === id ? { ...todo, star: !todo.star } : todo
+                ),
+            };
+
+            setData(result);
+            const allDatasClone = allDatas.slice();
+            allDatasClone.splice(todoIndex, 1, result);
+            saveAll(allDatasClone);
+
+            console.log(id);
+            console.log(todoIndex);
+            console.log(result);
         },
-        [allDatas]
+        [data]
     );
 
     // star로 sort()하는법
@@ -115,8 +150,10 @@ const TodoListTemplate = ({ title }) => {
             let starB = b.star ? 0 : 1;
             return starA - starB;
         },
-        [allDatas]
+        [data]
     );
+
+    // star에 넣는 리스트
 
     return (
         <div
@@ -130,7 +167,7 @@ const TodoListTemplate = ({ title }) => {
                 isShowConfig={isShowConfig}
                 onClickThem={onClickThem}
             />
-            <div className="title">{title || data.title}</div>
+            <div className="title">{data.title}</div>
 
             <div className="contents">
                 <TodoInsert onInsert={onInsert} />

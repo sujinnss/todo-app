@@ -12,23 +12,28 @@ import SelectColor from './components/SelectColor';
 function App() {
     const { Sider } = Layout;
     const [sider, setSider] = useState(false);
+// 저장 돼 있으면
+    let initAllDatas;
+    if (localStorage.getItem('allDatas')) {
+        initAllDatas = JSON.parse(localStorage.getItem('allDatas'));
+    } else {
+        initAllDatas = [
+            { key: '/', title: '할일', todos: [] },
+            { key: 'star', title: '중요', todos: [] },
+            { key: 'ex', title: '예시', todos: [] },
+        ];
+        localStorage.setItem('allDatas', JSON.stringify(initAllDatas));
+    }
+    const [allDatas, setAllDatas] = useState(initAllDatas);
     const onCollapse = (sider) => {
         console.log(sider);
         setSider(sider);
     };
 
-    let allDatas = [
-        { key: '/', title: '할일', todos: [] },
-        { key: 'star', title: '중요', todos: [] },
-        { key: 'ex', title: '예시', todos: [] },
-    ];
-
-    // 저장 돼 있으면
-    if (localStorage.getItem('allDatas')) {
-        allDatas = JSON.parse(localStorage.getItem('allDatas'));
-    } else {
-        localStorage.setItem('' + 'allDatas', JSON.stringify(allDatas));
-    }
+const saveAll = (allDatas) => {
+        setAllDatas(allDatas);
+        localStorage.setItem('allDatas', JSON.stringify(allDatas));
+    };
 
     return (
         <Router>
@@ -72,22 +77,20 @@ function App() {
                                     path="/"
                                     exact
                                     children={
-                                        <TodoListTemplate title={'할일'} />
+                                        <TodoListTemplate
+                                            allDatas={allDatas}
+                                            saveAll={saveAll}
+                                        />
                                     }
                                 />
-                                {/*<Route*/}
-                                {/*    path="/star"*/}
-                                {/*    exact*/}
-                                {/*    children={<TodoListTemplate title={'중요'} />}*/}
-                                {/*/>*/}
-                                {/*<Route*/}
-                                {/*    path="/ex"*/}
-                                {/*    exact*/}
-                                {/*    children={<TodoListTemplate title={'예시'} />}*/}
-                                {/*/>*/}
                                 <Route
                                     path="/:id"
-                                    children={<TodoListTemplate />}
+                                    children={
+                                        <TodoListTemplate
+                                            allDatas={allDatas}
+                                            saveAll={saveAll}
+                                        />
+                                    }
                                 />
                             </Switch>
                         </div>
