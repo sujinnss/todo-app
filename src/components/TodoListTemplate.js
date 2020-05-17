@@ -59,8 +59,8 @@ const TodoListTemplate = ({ allDatas, saveAll }) => {
                 text,
                 date,
                 checked: false,
-                star: false,
-                parent: id,
+                star: id === 'star',
+                parent: id === undefined ? 'todo' : id,
             };
 
             const result = {
@@ -70,17 +70,31 @@ const TodoListTemplate = ({ allDatas, saveAll }) => {
             setData(result);
             const allDatasClone = allDatas.slice();
             allDatasClone.splice(todoIndex, 1, result);
+
+            // star에 입력할때 star에도 추가되고 할일에도 추가
+            if (id === 'star') {
+                const todoData = allDatas.find((data) => data.key === '/');
+                const todoIndex = allDatas.findIndex(
+                    (data) => data.key === '/'
+                );
+                todoData.todos.push(todo);
+                allDatasClone.splice(todoIndex, 1, todoData);
+            }
+
             saveAll(allDatasClone);
-            console.log(todoIndex);
-            console.log(result);
-            console.log('현재 data: ' + JSON.stringify(data));
-            console.log('현재 입력값은:' + JSON.stringify(todo) + '입력됨');
-            console.log(allDatas);
+            // console.log(todoIndex);
+            // console.log(result);
+            // console.log('현재 data: ' + JSON.stringify(data));
+            // console.log('현재 입력값은:' + JSON.stringify(todo) + '입력됨');
+            // console.log(allDatas);
         },
         [data]
     );
 
     // 원하는 항목 지우는 함수
+    // star에서 삭제시 todo에서도 삭제
+    // star가 true인 todos를 삭제시 star에 들어가있는 것도 삭
+
     const onRemove = useCallback(
         (id) => {
             const result = {
@@ -89,9 +103,26 @@ const TodoListTemplate = ({ allDatas, saveAll }) => {
                     (todo) => todo.id !== id
                 ),
             };
+
+            // star 페이지의 todos를 삭제
+            const starData = allDatas.find((data) => data.key === 'star');
+            const starIndex = allDatas.findIndex((data) => data.key === 'star');
+
+            const starRemove = result.todos.find(
+                (todo) => todo.id === id && todo.star
+            );
+            console.log(starRemove);
+            if (starRemove !== undefined) {
+                const starRemoveIndex = result.todos.findIndex(
+                    (todo) => todo.id === id
+                );
+                starData.todos.splice(starRemoveIndex, 1);
+            }
+
             setData(result);
             const allDatasClone = allDatas.slice();
             allDatasClone.splice(todoIndex, 1, result);
+            allDatasClone.splice(starIndex, 1, starData);
             saveAll(allDatasClone);
 
             console.log('remove 실행');
@@ -100,6 +131,7 @@ const TodoListTemplate = ({ allDatas, saveAll }) => {
     );
 
     //체크 하는 함수 만들기
+    //star와 연동하
     const onToggle = useCallback(
         (id) => {
             const result = {
@@ -131,9 +163,32 @@ const TodoListTemplate = ({ allDatas, saveAll }) => {
                 ),
             };
 
+            const starData = allDatas.find((data) => data.key === 'star');
+            const starIndex = allDatas.findIndex((data) => data.key === 'star');
+
+            // star페이지의 todos에 Insert
+            const starDone = result.todos.find(
+                (todo) => todo.id === id && todo.star
+            );
+            if (starDone !== undefined) {
+                starData.todos.push(starDone);
+            }
+
+            // star페이지의 todos에 remove
+            const unStarDone = result.todos.find(
+                (todo) => todo.id === id && !todo.star
+            );
+            if (unStarDone !== undefined) {
+                const unStarIndex = result.todos.findIndex(
+                    (todo) => todo.id === id
+                );
+                starData.todos.splice(unStarIndex, 1);
+            }
+
             setData(result);
             const allDatasClone = allDatas.slice();
             allDatasClone.splice(todoIndex, 1, result);
+            allDatasClone.splice(starIndex, 1, starData);
             saveAll(allDatasClone);
 
             console.log(id);
