@@ -12,6 +12,7 @@ import TodoInsert from './TodoInsert';
 import TodoList from './TodoList';
 import moment from 'moment';
 import { useParams } from 'react-router';
+import index from 'babel-plugin-import/src';
 
 //TODO console 에러 잡기
 const TodoListTemplate = ({ allDatas, saveAll }) => {
@@ -97,27 +98,41 @@ const TodoListTemplate = ({ allDatas, saveAll }) => {
 
     const onRemove = useCallback(
         (id) => {
+            let removableTodo;
             const result = {
                 ...currentData.current,
-                todos: currentData.current.todos.filter(
-                    (todo) => todo.id !== id
-                ),
+                todos: currentData.current.todos
+                    .map((todo) => {
+                        if (todo.id === id) {
+                            removableTodo = todo;
+                            return false;
+                        } else {
+                            return todo;
+                        }
+                    })
+                    .filter((todo) => todo),
             };
+            console.log(result.todos);
 
-            // star 페이지의 todos를 삭제
+            //할일의 todos와 같은내용 star 페이지에서 삭제
             const starData = allDatas.find((data) => data.key === 'star');
             const starIndex = allDatas.findIndex((data) => data.key === 'star');
 
-            const starRemove = result.todos.find(
-                (todo) => todo.id === id && todo.star
-            );
-            console.log(starRemove);
+            // "star"에서 지운거 "할일 or 예시" 에서 지우기
+            // const starResult = starData.todos.find((todo) => todo.id === id);
+            // console.log(starResult);
+
+            // "할일 or 예시" 에서 지운거 star 에서 지우기
+            // removableTodo랑 같은 id를 가진 것을  중요에서 찾아서 삭제
+            const starRemove = starData.todos.find((todo) => todo.id === id);
             if (starRemove !== undefined) {
-                const starRemoveIndex = result.todos.findIndex(
+                const StarIndex = starData.todos.findIndex(
                     (todo) => todo.id === id
                 );
-                starData.todos.splice(starRemoveIndex, 1);
+                console.log(starIndex);
+                starData.todos.splice(StarIndex, 1);
             }
+            console.log(starRemove);
 
             setData(result);
             const allDatasClone = allDatas.slice();
@@ -140,14 +155,27 @@ const TodoListTemplate = ({ allDatas, saveAll }) => {
                     todo.id === id ? { ...todo, checked: !todo.checked } : todo
                 ),
             };
+
+            //star 페이지의 checked에 연동
+            const starData = allDatas.find((data) => data.key === 'star');
+            const starIndex = allDatas.findIndex((data) => data.key === 'star');
+            const starCheck = result.todos.find(
+                (todo) => todo.id === id && todo.checked
+            );
+            if (starCheck !== undefined) {
+                const StarIndex = starData.todos.findIndex(
+                    (todo) => todo.id === id
+                );
+            }
+
             setData(result);
             const allDatasClone = allDatas.slice();
             allDatasClone.splice(todoIndex, 1, result);
             saveAll(allDatasClone);
 
-            console.log(id);
-            console.log(todoIndex);
-            console.log(result);
+            // console.log(id);
+            // console.log(todoIndex);
+            // console.log(result);
             // setAllDatas(JSON.stringify(allDatas));
         },
         [data]
@@ -165,7 +193,6 @@ const TodoListTemplate = ({ allDatas, saveAll }) => {
 
             const starData = allDatas.find((data) => data.key === 'star');
             const starIndex = allDatas.findIndex((data) => data.key === 'star');
-
             // star페이지의 todos에 Insert
             const starDone = result.todos.find(
                 (todo) => todo.id === id && todo.star
@@ -174,10 +201,11 @@ const TodoListTemplate = ({ allDatas, saveAll }) => {
                 starData.todos.push(starDone);
             }
 
-            // star페이지의 todos에 remove
+            // star페이지의 todos remove
             const unStarDone = result.todos.find(
                 (todo) => todo.id === id && !todo.star
             );
+            console.log(unStarDone);
             if (unStarDone !== undefined) {
                 const unStarIndex = result.todos.findIndex(
                     (todo) => todo.id === id
