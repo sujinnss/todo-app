@@ -55,6 +55,7 @@ const TodoItem = ({ todo, onRemove, onToggle, onToggleStar }) => {
     );
 };
 // 컴포넌트의 리렌더링을 방지하기위해 React.memo를 사용한다
-export default React.memo(TodoItem, (prevProps, nextProps) => {
-    return is(fromJS(prevProps.todo), fromJS(nextProps.todo));
-});
+// export default React.memo(TodoItem, (prevProps, nextProps) => {
+//     return is(fromJS(prevProps.todo), fromJS(nextProps.todo));
+// });
+export default TodoItem;

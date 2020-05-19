@@ -13,6 +13,7 @@ import TodoList from './TodoList';
 import moment from 'moment';
 import { useParams } from 'react-router';
 import index from 'babel-plugin-import/src';
+import { remove } from 'immutable';
 
 //TODO console 에러 잡기
 const TodoListTemplate = ({ allDatas, saveAll }) => {
@@ -30,10 +31,10 @@ const TodoListTemplate = ({ allDatas, saveAll }) => {
     console.log('id는 ' + id);
 
     const tempIndex = allDatas.findIndex((todo) => todo.key === id);
-    const todoIndex = tempIndex > -1 ? tempIndex : 0;
+    const currentIndex = tempIndex > -1 ? tempIndex : 0;
 
     // allDatas의 초기값은 allDatas의 0번째 배열 (즉 할일 목록)
-    const [data, setData] = useState(allDatas[todoIndex]);
+    const [data, setData] = useState(allDatas[currentIndex]);
     const currentData = useRef(data);
 
     useEffect(() => {
@@ -41,12 +42,12 @@ const TodoListTemplate = ({ allDatas, saveAll }) => {
     });
 
     useEffect(() => {
-        let todoData = allDatas[todoIndex];
+        let todoData = allDatas[currentIndex];
         setData(todoData);
 
-        console.log(todoIndex);
+        console.log(currentIndex);
         console.log('useEffect 실행');
-        console.log('todoIndex: ' + todoIndex);
+        console.log('todoIndex: ' + currentIndex);
         console.log('init: ' + JSON.stringify(todoData));
         console.log('data: ' + JSON.stringify(data));
     }, [id]);
@@ -70,7 +71,7 @@ const TodoListTemplate = ({ allDatas, saveAll }) => {
             };
             setData(result);
             const allDatasClone = allDatas.slice();
-            allDatasClone.splice(todoIndex, 1, result);
+            allDatasClone.splice(currentIndex, 1, result);
 
             // star에 입력할때 star에도 추가되고 할일에도 추가
             if (id === 'star') {
@@ -81,13 +82,7 @@ const TodoListTemplate = ({ allDatas, saveAll }) => {
                 todoData.todos.push(todo);
                 allDatasClone.splice(todoIndex, 1, todoData);
             }
-
             saveAll(allDatasClone);
-            // console.log(todoIndex);
-            // console.log(result);
-            // console.log('현재 data: ' + JSON.stringify(data));
-            // console.log('현재 입력값은:' + JSON.stringify(todo) + '입력됨');
-            // console.log(allDatas);
         },
         [data]
     );
@@ -96,14 +91,64 @@ const TodoListTemplate = ({ allDatas, saveAll }) => {
     // star에서 삭제시 todo에서도 삭제
     // star가 true인 todos를 삭제시 star에 들어가있는 것도 삭
 
+    const removeInStar = (removableTodo, result) => {
+        const allDatasClone = allDatas.slice();
+
+        const todoInData = allDatas.find((data) => data.key === '/');
+        const todoInIndex = allDatas.findIndex((data) => data.key === '/');
+        const exInData = allDatas.find((data) => data.key === 'ex');
+        const exInIndex = allDatas.findIndex((data) => data.key === 'ex');
+
+        if (
+            removableTodo.parent === 'todo' ||
+            removableTodo.parent === 'star'
+        ) {
+            const todoSameIndex = todoInData.todos.findIndex(
+                (todo) => todo.id === removableTodo.id
+            );
+            setData(result);
+            todoInData.todos.splice(todoSameIndex, 1);
+            allDatasClone.splice(currentIndex, 1, result);
+            allDatasClone.splice(todoInIndex, 1, todoInData);
+        } else if (removableTodo.parent === 'ex') {
+            const exSameIndex = exInData.todos.findIndex(
+                (todo) => todo.id === removableTodo.id
+            );
+            setData(result);
+            exInData.todos.splice(exSameIndex, 1);
+            allDatasClone.splice(currentIndex, 1, result);
+            allDatasClone.splice(exInIndex, 1, exInData);
+        }
+        saveAll(allDatasClone);
+    };
+
+    const removeInNoStar = (removableTodo, result) => {
+        const allDatasClone = allDatas.slice();
+
+        //할일의 todos와 같은내용 star 페이지에서 삭제
+        const starInData = allDatas.find((data) => data.key === 'star');
+        const starInIndex = allDatas.findIndex((data) => data.key === 'star');
+
+        const starSameIndex = starInData.todos.findIndex(
+            (todo) => todo.id === removableTodo.id
+        );
+        starInData.todos.splice(starSameIndex, 1);
+        setData(result);
+
+        allDatasClone.splice(currentIndex, 1, result);
+        allDatasClone.splice(starInIndex, 1, starInData);
+        saveAll(allDatasClone);
+    };
+
     const onRemove = useCallback(
-        (id) => {
+        (todoId) => {
             let removableTodo;
+            // 현재 찍은 애를 제외하고 나머지 투두를 구함 + 사이드이펙트(삭제한 애가 removableTodo에 담김)
             const result = {
                 ...currentData.current,
                 todos: currentData.current.todos
                     .map((todo) => {
-                        if (todo.id === id) {
+                        if (todo.id === todoId) {
                             removableTodo = todo;
                             return false;
                         } else {
@@ -112,71 +157,92 @@ const TodoListTemplate = ({ allDatas, saveAll }) => {
                     })
                     .filter((todo) => todo),
             };
-            console.log(result.todos);
 
-            //할일의 todos와 같은내용 star 페이지에서 삭제
-            const starData = allDatas.find((data) => data.key === 'star');
-            const starIndex = allDatas.findIndex((data) => data.key === 'star');
-
-            // "star"에서 지운거 "할일 or 예시" 에서 지우기
-            // const starResult = starData.todos.find((todo) => todo.id === id);
-            // console.log(starResult);
-
-            // "할일 or 예시" 에서 지운거 star 에서 지우기
-            // removableTodo랑 같은 id를 가진 것을  중요에서 찾아서 삭제
-            const starRemove = starData.todos.find((todo) => todo.id === id);
-            if (starRemove !== undefined) {
-                const StarIndex = starData.todos.findIndex(
-                    (todo) => todo.id === id
-                );
-                console.log(starIndex);
-                starData.todos.splice(StarIndex, 1);
+            if (id === 'star') {
+                removeInStar(removableTodo, result);
+            } else {
+                removeInNoStar(removableTodo, result);
             }
-            console.log(starRemove);
-
-            setData(result);
-            const allDatasClone = allDatas.slice();
-            allDatasClone.splice(todoIndex, 1, result);
-            allDatasClone.splice(starIndex, 1, starData);
-            saveAll(allDatasClone);
-
-            console.log('remove 실행');
         },
-        [data]
+        [data, currentIndex]
     );
 
     //체크 하는 함수 만들기
-    //star와 연동하
     const onToggle = useCallback(
-        (id) => {
+        (todoId) => {
+            let removableTodo;
+            const todoInData = allDatas.find((data) => data.key === '/');
+            const todoInIndex = allDatas.findIndex((data) => data.key === '/');
+            const exInData = allDatas.find((data) => data.key === 'ex');
+            const exInIndex = allDatas.findIndex((data) => data.key === 'ex');
+            const starInData = allDatas.find((data) => data.key === 'star');
+            const starInIndex = allDatas.findIndex(
+                (data) => data.key === 'star'
+            );
+
+            const allDatasClone = allDatas.slice();
+
             const result = {
                 ...currentData.current,
-                todos: currentData.current.todos.map((todo) =>
-                    todo.id === id ? { ...todo, checked: !todo.checked } : todo
-                ),
+                todos: currentData.current.todos.map((todo) => {
+                    if (todo.id === todoId) {
+                        removableTodo = todo;
+                        return { ...todo, checked: !todo.checked };
+                    }
+                    return todo;
+                }),
             };
+            // check를 star에서 할 때
+            if (id === 'star') {
+                console.log(todoId);
+                if (result.todos.parent === 'todo') {
+                    const todoSameIndex = todoInData.todos.findIndex(
+                        (todo) => todo.id === todoId
+                    );
+                    setData(result);
 
-            //star 페이지의 checked에 연동
-            const starData = allDatas.find((data) => data.key === 'star');
-            const starIndex = allDatas.findIndex((data) => data.key === 'star');
-            const starCheck = result.todos.find(
-                (todo) => todo.id === id && todo.checked
-            );
-            if (starCheck !== undefined) {
-                const StarIndex = starData.todos.findIndex(
-                    (todo) => todo.id === id
-                );
+                    todoInData.todos.map((todo) =>
+                        todo.id === todoId
+                            ? { ...todo, checked: !todo.checked }
+                            : todo
+                    );
+                    todoInData.todos.splice(todoSameIndex, 1, todoInData);
+                    allDatasClone.splice(currentIndex, 1, result);
+                } else if (todoId.parent === 'ex') {
+                    const exSameIndex = exInData.todos.findIndex(
+                        (todo) => todo.id === todoId.id
+                    );
+                    setData(result);
+                    exInData.todos.map((todo) =>
+                        todo.id === todoId.id
+                            ? { ...todo, checked: !todo.checked }
+                            : todo
+                    );
+                    exInData.todos.splice(exSameIndex, 1, exInData);
+                    allDatasClone.splice(currentIndex, 1, result);
+                }
+                saveAll(allDatasClone);
+            } else {
             }
 
-            setData(result);
-            const allDatasClone = allDatas.slice();
-            allDatasClone.splice(todoIndex, 1, result);
-            saveAll(allDatasClone);
-
-            // console.log(id);
-            // console.log(todoIndex);
-            // console.log(result);
-            // setAllDatas(JSON.stringify(allDatas));
+            //star 페이지의 checked에 연동
+            // const starInData = allDatas.find((data) => data.key === 'star');
+            // const starInIndex = allDatas.findIndex(
+            //     (data) => data.key === 'star'
+            // );
+            //
+            // const starCheck = result.todos.find((todo) => todo.id === todoId);
+            //
+            // if (starCheck !== undefined) {
+            //     const starSameIndex = starInData.todos.findIndex(
+            //         (todo) => todo.id === todoId
+            //     );
+            //     starInData.todos.splice(starSameIndex, 1);
+            //     setData(result);
+            //     allDatasClone.splice(starInIndex, 1, starInData);
+            //     allDatasClone.splice(currentIndex, 1, result);
+            //     saveAll(allDatasClone);
+            // }
         },
         [data]
     );
@@ -193,6 +259,7 @@ const TodoListTemplate = ({ allDatas, saveAll }) => {
 
             const starData = allDatas.find((data) => data.key === 'star');
             const starIndex = allDatas.findIndex((data) => data.key === 'star');
+
             // star페이지의 todos에 Insert
             const starDone = result.todos.find(
                 (todo) => todo.id === id && todo.star
@@ -215,12 +282,12 @@ const TodoListTemplate = ({ allDatas, saveAll }) => {
 
             setData(result);
             const allDatasClone = allDatas.slice();
-            allDatasClone.splice(todoIndex, 1, result);
+            allDatasClone.splice(currentIndex, 1, result);
             allDatasClone.splice(starIndex, 1, starData);
             saveAll(allDatasClone);
 
             console.log(id);
-            console.log(todoIndex);
+            console.log(currentIndex);
             console.log(result);
         },
         [data]
