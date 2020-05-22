@@ -195,56 +195,52 @@ const TodoListTemplate = ({ allDatas, saveAll }) => {
             // check를 star에서 할 때
             if (id === 'star') {
                 console.log(todoId);
-                if (result.todos.parent === 'todo') {
-                    const todoSameIndex = todoInData.todos.findIndex(
-                        (todo) => todo.id === todoId
-                    );
+                if (removableTodo.parent === 'todo') {
+                    const todoChange = {
+                        ...todoInData,
+                        todos: todoInData.todos.map((todo) =>
+                            todo.id === removableTodo.id
+                                ? { ...todo, checked: !todo.checked }
+                                : todo
+                        ),
+                    };
                     setData(result);
-
-                    todoInData.todos.map((todo) =>
-                        todo.id === todoId
-                            ? { ...todo, checked: !todo.checked }
-                            : todo
-                    );
-                    todoInData.todos.splice(todoSameIndex, 1, todoInData);
+                    allDatasClone.splice(todoInIndex, 1, todoChange);
                     allDatasClone.splice(currentIndex, 1, result);
-                } else if (todoId.parent === 'ex') {
-                    const exSameIndex = exInData.todos.findIndex(
-                        (todo) => todo.id === todoId.id
-                    );
+                    saveAll(allDatasClone);
+                } else if (removableTodo.parent === 'ex') {
+                    const exChange = {
+                        ...exInData,
+                        todos: exInData.todos.map((todo) =>
+                            todo.id === removableTodo.id
+                                ? { ...todo, checked: !todo.checked }
+                                : todo
+                        ),
+                    };
                     setData(result);
-                    exInData.todos.map((todo) =>
-                        todo.id === todoId.id
-                            ? { ...todo, checked: !todo.checked }
-                            : todo
-                    );
-                    exInData.todos.splice(exSameIndex, 1, exInData);
+                    allDatasClone.splice(exInIndex, 1, exChange);
                     allDatasClone.splice(currentIndex, 1, result);
+                    saveAll(allDatasClone);
                 }
-                saveAll(allDatasClone);
             } else {
             }
 
-            //star 페이지의 checked에 연동
-            // const starInData = allDatas.find((data) => data.key === 'star');
-            // const starInIndex = allDatas.findIndex(
-            //     (data) => data.key === 'star'
-            // );
-            //
-            // const starCheck = result.todos.find((todo) => todo.id === todoId);
-            //
-            // if (starCheck !== undefined) {
-            //     const starSameIndex = starInData.todos.findIndex(
-            //         (todo) => todo.id === todoId
-            //     );
-            //     starInData.todos.splice(starSameIndex, 1);
-            //     setData(result);
-            //     allDatasClone.splice(starInIndex, 1, starInData);
-            //     allDatasClone.splice(currentIndex, 1, result);
-            //     saveAll(allDatasClone);
-            // }
+            //star 페이지의 checked에 연동 ==> 수정 필요
+
+            const starCheck = result.todos.find((todo) => todo.id === todoId);
+
+            if (starCheck !== undefined) {
+                const starSameIndex = starInData.todos.findIndex(
+                    (todo) => todo.id === todoId
+                );
+                starInData.todos.splice(starSameIndex, 1);
+                setData(result);
+                allDatasClone.splice(starInIndex, 1, starInData);
+                allDatasClone.splice(currentIndex, 1, result);
+                saveAll(allDatasClone);
+            }
         },
-        [data]
+        [data, currentIndex]
     );
 
     // 별 클릭시 색상 변경
